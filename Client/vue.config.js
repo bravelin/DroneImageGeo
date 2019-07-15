@@ -9,11 +9,8 @@ module.exports = {
         disableHostCheck: true,
         proxy: {
             '/api': {
-                target: 'http://192.168.2.117:10013/bigdata/',
-                changeOrigin: true,
-                pathRewrite: {
-                    '^/bigdata': ''
-                }
+                target: 'http://localhost:9012',
+                changeOrigin: true
             }
         }
     }

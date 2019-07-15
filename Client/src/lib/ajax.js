@@ -1,13 +1,19 @@
 /** ajax 基于axios */
 import axios from 'axios'
-import config from '@/lib/config'
+import { cookie } from '@/lib/util'
 import store from '@/store/index'
+let csrfToken = ''
 
-const Qs = require('qs')
-axios.defaults.baseURL = ''
 // 请求发送之前的拦截器
 axios.interceptors.request.use(config => {
-    config.headers['valToken'] = store.state.userToken
+    if (!csrfSafeMethod(config.method)) {
+        if (!csrfToken) {
+            csrfToken = cookie('csrfToken')
+        }
+        config.headers['x-csrf-token'] = csrfToken
+    }
+    config.headers['Authorization'] = `Bearer ${store.state.userToken}`
+    config.headers['uid'] = store.state.userId
     return config
 }, error => {
     return Promise.reject(error)
@@ -15,28 +21,26 @@ axios.interceptors.request.use(config => {
 
 // 请求响应拦截器
 axios.interceptors.response.use(res => {
-    return Promise.resolve(res)
+    const resData = res.data
+    // console.log('ajax res', resData)
+    if (resData.code === 401) { // 跳转至登录
+        store.state.currRouter.instance.push({ name: 'login' })
+        return Promise.reject(res)
+    } else {
+        return Promise.resolve(res)
+    }
 }, error => {
     return Promise.reject(error)
 })
 
+function csrfSafeMethod (method) {
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/i.test(method))
+}
+
 export default function (options) {
-    if (/post/i.test(options.method) && !options.headers) {
-        options.headers = {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        }
-        options.data = Qs.stringify(options.data)
-    }
-    if (!/json/.test(options.url)) {
-        options.url = config.baseUrl + options.url
-    }
     return new Promise((resolve, reject) => {
         axios.request(options).then(res => {
-            if (res.data.code == 'w1005' || res.data.msg == 'token过期') {
-                store.state.currRouter.instance.push({ name: 'login' })
-            } else {
-                resolve(res.data)
-            }
+            resolve(res.data)
         }, error => {
             reject(error)
         })

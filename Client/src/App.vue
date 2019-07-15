@@ -3,6 +3,8 @@
         <HeaderBar></HeaderBar>
         <router-view :style="{ height: (winHeight - 60) + 'px' }"/>
         <Spinner v-show="loading"></Spinner>
+        <ChangePassword></ChangePassword>
+        <GlobalMessage></GlobalMessage>
     </div>
 </template>
 
@@ -11,11 +13,13 @@
     import { mapState } from 'vuex'
     import types from '@/store/constants/types'
     import HeaderBar from '@/views/HeaderBar'
+    import ChangePassword from '@/views/ChangePassword'
+    import GlobalMessage from '@/components/Message'
 
     export default {
         name: 'App',
         components: {
-            Spinner, HeaderBar
+            Spinner, HeaderBar, ChangePassword, GlobalMessage
         },
         computed: {
             ...mapState(['loading', 'winHeight'])

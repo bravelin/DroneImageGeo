@@ -5,6 +5,7 @@ export default {
     userId: `${prefixTag}-userid`,
     userRole: `${prefixTag}-userrole`,
     userName: `${prefixTag}-username`,
+    realName: `${prefixTag}-realname`,
     password: `${prefixTag}-password`,
     loginRemember: `${prefixTag}-remember`
 }

@@ -51,6 +51,27 @@ class UserController extends Controller {
         helper.success(ctx, '', res.message, res.code);
     }
 
+    async updateRealNameAndPassword () {
+        const { ctx, service } = this;
+        const helper = ctx.helper;
+        const uid = ctx.request.header.uid;
+        const params = ctx.request.body;
+        if (!uid || !(uid + '').trim()) {
+            return helper.success(ctx, '', '接口缺少参数！', 501);
+        }
+        if (!params.realName || !(params.realName + '').trim()) {
+            return helper.success(ctx, '', '账号真实名称不能为空！', 501);
+        }
+        if (!params.oldPassword || !(params.oldPassword + '').trim()) {
+            return helper.success(ctx, '', '旧密码不能为空！', 501);
+        }
+        if (!params.password || !(params.password + '').trim()) {
+            return helper.success(ctx, '', '账号密码不能为空！', 501);
+        }
+        const res = await service.user.updateRealNameAndPassword(uid, params.realName, params.oldPassword, params.password);
+        helper.success(ctx, '', res.message, res.code);
+    }
+
     // 创建账号
     async create () {
         const { ctx, service } = this;

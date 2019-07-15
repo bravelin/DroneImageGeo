@@ -4,7 +4,6 @@ import mutations from './mutations'
 import actions from './actions'
 import modules from './modules'
 import StorageTags from '@/lib/storageTags'
-import TabTypes from '@/views/tabs'
 
 Vue.use(Vuex)
 const ls = localStorage
@@ -26,9 +25,9 @@ export default new Vuex.Store({
         userId: ls.getItem(StorageTags.userId) || '', // 用户ID
         userName: ls.getItem(StorageTags.userName) || '', // 登录名
         userRole: ls.getItem(StorageTags.userRole) || '0', // 角色
+        realName: ls.getItem(StorageTags.realName) || '', // RealName
 
-        leftPlaneTab: '', // 左侧plane当前激活的Tab
-        changePwDialogStatus: false // 修改密码弹窗状态
+        changePwDialogStatus: false // 修改当前账号的密码，名称
     },
     mutations,
     actions,

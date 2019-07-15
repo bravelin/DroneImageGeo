@@ -26,11 +26,19 @@ export default {
             state.loading = false
         }
     },
+    [types.UPDATE_ACCOUNT] (state, payload) {
+        state.realName = payload.realName
+        if (state.loginRemember) {
+            ls.setItem(StorageTags.realName, state.realName)
+            ls.setItem(StorageTags.password, payload.password)
+        }
+    },
     // 更新用户信息
     [types.UPDATE_USER_INFO] (state, payload) {
         state.userToken = payload.userToken
         state.userId = payload.userId
         state.userName = payload.userName
+        state.realName = payload.realName
         state.userRole = payload.userRole
         state.loginRemember = payload.loginRemember
         ls.setItem(StorageTags.loginRemember, payload.loginRemember ? '1' : '0')
@@ -38,12 +46,14 @@ export default {
             ls.setItem(StorageTags.userToken, state.userToken)
             ls.setItem(StorageTags.userId, state.userId)
             ls.setItem(StorageTags.userName, state.userName)
+            ls.setItem(StorageTags.realName, state.realName)
             ls.setItem(StorageTags.userRole, state.userRole)
             ls.setItem(StorageTags.password, payload.password)
         } else {
             ls.removeItem(StorageTags.userToken)
             ls.removeItem(StorageTags.userId)
             ls.removeItem(StorageTags.userName)
+            ls.removeItem(StorageTags.realName)
             ls.removeItem(StorageTags.userRole)
             ls.removeItem(StorageTags.password)
         }
@@ -59,6 +69,7 @@ export default {
         if (ls.getItem(StorageTags.loginRemember) == '0') {
             state.userName = ''
             ls.removeItem(StorageTags.userName)
+            ls.removeItem(StorageTags.realName)
             ls.removeItem(StorageTags.password)
         }
     },
@@ -67,11 +78,7 @@ export default {
         state.showMessageTip = payload.show
         state.tip = payload.tip
     },
-    // 修改左侧面板的Tab
-    [types.SWITCH_LEFT_PLANE_TAB] (state, payload) {
-        state.leftPlaneTab = payload
-    },
-    // 控制修改密码弹窗
+    // 控制修改账号名称、密码的弹窗是否显示
     [types.SWITCH_CHANGE_PW_DIALOG_STATUS] (state, payload) {
         state.changePwDialogStatus = payload
     }

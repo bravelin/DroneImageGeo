@@ -14,6 +14,7 @@ module.exports = app => {
 
     router.get('/api/users', controller.user.index); // 查询所有的账号
     router.get('/api/users/:id', controller.user.show); // 查询单个账号
+    router.post('/api/users/update', controller.user.updateRealNameAndPassword); // 更新当前账号信息
     router.put('/api/users/updateName/:id', controller.user.updateRealName); // 修改账号的realName
     router.put('/api/users/updatePassword/:id', controller.user.updatePassword); // 修改账号的password
     router.post('/api/users', controller.user.create); // 创建账号

@@ -29,12 +29,12 @@
             <div class="column8"></div>
             <div class="column9"></div>
         </div>
-        <div class="exit-app-btn" v-show="showExitApp" @click="doExitApp()"><i></i>退出</div>
     </div>
 </template>
 <script>
     import StorageTags from '@/lib/storageTags'
     import types from '@/store/constants/types'
+    import { aesEncrypt } from '@/lib/util'
 
     const ls = localStorage
     export default {
@@ -52,7 +52,6 @@
                 accountActive: false,
                 passwordActive: false,
                 showColumns: false,
-                showExitApp: /yfkjtea/i.test(navigator.userAgent),
                 loginRemember: !(ls.getItem(StorageTags.loginRemember) == '0')
             }
         },
@@ -84,9 +83,6 @@
             })
         },
         methods: {
-            doExitApp () {
-                location.href = 'exitAppRequest?exitApp=1'
-            },
             doInputFocusOrBlur (prop, tag) {
                 this[prop] = tag
             },
@@ -120,29 +116,24 @@
                     that.isProcessing = true
                     store.commit(types.SWITCH_LOADING, true)
                     that.$ajax({
-                        url: '/data/user/login',
+                        url: '/api/login',
                         method: 'post',
-                        data: {
-                            username: that.loginName.trim(),
-                            password: that.password.trim()
-                        }
+                        data: { loginName: that.loginName.trim(), password: aesEncrypt(that.password) }
                     }).then(res => {
                         store.commit(types.SWITCH_LOADING, false)
                         if (res.code != 200) {
                             that.showMessage('您输入的账号或者密码不正确！')
                         } else {
-                            that.showMessage('登录成功！')
-                            const resData = res.repData
-                            const userType = {
-                                'BS+': '2', 'DT': '1'
-                            }
+                            that.showMessage('恭喜，登录成功！')
+                            const resData = res.data
                             store.commit(types.UPDATE_USER_INFO, {
-                                userToken: resData.tokenKey,
-                                userId: '',
+                                userToken: resData.token,
+                                userId: resData.id,
                                 userName: that.loginName.trim(),
-                                userRole: userType[resData.user_type] || '0',
+                                realName: resData.realName,
+                                userRole: resData.role,
                                 password: that.password.trim(),
-                                loginRemember: that.loginRemember,
+                                loginRemember: that.loginRemember
                             })
                             setTimeout(() => { that.$router.push({ name: 'home' }) }, 500)
                         }

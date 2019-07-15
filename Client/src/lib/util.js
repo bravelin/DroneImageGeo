@@ -1,3 +1,38 @@
+const crypto = require('crypto')
+const aesKey = '20190715081720Qm'
+const aesIv = [...aesKey].reverse().join('')
+
+// AES加密
+export function aesEncrypt (data) {
+    const cipher = crypto.createCipheriv('aes-128-cbc', aesKey, aesIv)
+    let crypted = cipher.update(data, 'utf8', 'hex')
+    crypted += cipher.final('hex')
+    return crypted
+}
+
+// cookie操作
+export function cookie (name, value, expireDay) {
+    if (!name) {
+        return
+    }
+    let arr
+    let reg = new RegExp('(^| )' + name + '=([^;]*)(;|$)')
+    if (value == null) { // 获取cookie
+        arr = document.cookie.match(reg)
+        if (arr) {
+            return decodeURIComponent(arr[2])
+        }
+        return null
+    } else { // 设置cookie
+        if (!expireDay) {
+            expireDay = 10
+        }
+        const exp = new Date()
+        exp.setTime(exp.getTime() + expireDay * 24 * 60 * 60 * 1000)
+        document.cookie = name + '=' + encodeURIComponent(value) + ';expires=' + exp.toGMTString()
+    }
+}
+
 // 时间格式化
 export function formatTime (date, format = 'yyyy-MM-dd hh:mm:ss') {
     const o = {

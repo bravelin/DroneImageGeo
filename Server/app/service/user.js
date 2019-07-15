@@ -1,6 +1,6 @@
 'use strict';
 const Service = require('egg').Service;
-
+const crypto = require('crypto');
 class UserService extends Service {
     // 分页查询所有账号
     async queryAll ({ searchKey, page, pageSize }) {
@@ -104,6 +104,28 @@ class UserService extends Service {
             hash.update(plainPassword);
             await manager.update({ loginPassword: hash.digest('hex') });
             return { code: 200, message: '账号密码修改成功！' };
+        } else {
+            return { code: 201, message: '未能查询到账号！' };
+        }
+    }
+
+    async updateRealNameAndPassword (id, realName, oldPassword, password) {
+        const ctx = this.ctx;
+        const manager = await ctx.model.User.findById(id);
+        if (manager) {
+            const oldPw = ctx.helper.aesDecrypt(oldPassword);
+            const oldHash = crypto.createHash('sha1');
+            oldHash.update(oldPw);
+            oldHash.update(oldPw);
+            if (oldHash.digest('hex') != manager.loginPassword) {
+                return { code: 201, message: '旧密码不正确！' };
+            }
+            const plainPassword = ctx.helper.aesDecrypt(password);
+            const hash = crypto.createHash('sha1');
+            hash.update(plainPassword);
+            hash.update(plainPassword);
+            await manager.update({ loginPassword: hash.digest('hex'), realName });
+            return { code: 200, message: '账号信息修改成功！' };
         } else {
             return { code: 201, message: '未能查询到账号！' };
         }
