@@ -13,6 +13,59 @@
     background-size: 100% 100%;
 }
 
+.app-content{
+    display: flex;
+    height: calc(100% - 60px);
+    background: #fff;
+    div.nav-menus{
+        flex: none;
+        width: 300px;
+        background-color: rgba(#131e22, 0.95);
+        // border-top: 1px solid rgba(#32505e, 0.5);
+    }
+    div.page{
+        flex: 1;
+    }
+}
+
+div.nav-menus{
+    padding-top: 30px;
+    .menu-item{
+        display: flex;
+        align-items: center;
+        line-height: 55px;
+        font-size: 15px;
+        letter-spacing: 1px;
+        padding-left: 45px;
+        cursor: pointer;
+        transition: all 0.35s ease;
+        color: rgba(#74c0e3, 0.55);
+        &.active, &:hover{
+            background: rgba(#131e22, 1);
+            color: #74c0e3;
+        }
+        i{
+            font-size: 14px;
+            margin-right: 10px;
+        }
+        &.sub-item{
+            font-size: 14px;
+            padding-left: 71px;
+            line-height: 45px;
+        }
+    }
+    .mutil-menu{
+        >ul{
+            display: none;
+        }
+        &.active{
+            >ul{
+                display: block;
+            }
+        }
+    }
+}
+
 .header-bar{
     display: flex;
     height: 60px;

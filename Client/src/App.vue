@@ -1,7 +1,10 @@
 <template>
     <div id="app" :style="{ height: winHeight + 'px' }">
         <HeaderBar></HeaderBar>
-        <router-view :style="{ height: (winHeight - 60) + 'px' }"/>
+        <div class="app-content">
+            <NavMenus></NavMenus>
+            <router-view :style="{ height: (winHeight - 60) + 'px' }"/>
+        </div>
         <Spinner v-show="loading"></Spinner>
         <ChangePassword></ChangePassword>
         <GlobalMessage></GlobalMessage>
@@ -10,6 +13,7 @@
 
 <script>
     import Spinner from '@/components/Spinner'
+    import NavMenus from '@/views/NavMenus'
     import { mapState } from 'vuex'
     import types from '@/store/constants/types'
     import HeaderBar from '@/views/HeaderBar'
@@ -19,7 +23,7 @@
     export default {
         name: 'App',
         components: {
-            Spinner, HeaderBar, ChangePassword, GlobalMessage
+            Spinner, HeaderBar, ChangePassword, GlobalMessage, NavMenus
         },
         computed: {
             ...mapState(['loading', 'winHeight'])

@@ -20,6 +20,11 @@ const router = new Router({
             component: () => import('./views/Home.vue')
         },
         {
+            path: '/accounts',
+            name: 'accounts', // 账号管理
+            component: () => import('./views/accounts/Main.vue')
+        },
+        {
             path: '*',
             redirect: { name: 'login' }
         }
