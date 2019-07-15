@@ -3,96 +3,8 @@ const Service = require('egg').Service;
 const fs = require('fs');
 const path = require('path');
 const piexif = require('piexifjs');
-const Xlsx = require('node-xlsx');
-const sendToWormhole = require('stream-wormhole');
-const awaitWriteStream = require('await-stream-ready').write;
-const uuidv1 = require("uuid/v1");
 
-function generateUUID() {
-    return uuidv1().replace(/-/g, "");
-}
-
-class AdminService extends Service {
-    async importOffset () {
-        const { ctx, app } = this;
-        const stream = await ctx.getFileStream();
-        const originalName = path.basename(stream.filename);
-        const fileName = generateUUID() + originalName.substr(originalName.lastIndexOf('.'));
-        const target = path.join(app.config.uploadDir, fileName);
-        const writeStream = fs.createWriteStream(target);
-        try {
-            await awaitWriteStream(stream.pipe(writeStream));
-        } catch (err) {
-            await sendToWormhole(stream);
-        }
-        ctx.body = '<h1>upload success!!!</h1>'
-        console.log('response message.....')
-        process.nextTick(async () => {
-            console.log('continue process....')
-            try {
-                const xlsxContent = Xlsx.parse(target);
-                const xlsxData = xlsxContent[0].data; // 二维数组
-                let row = null;
-                if (xlsxData && xlsxData.length > 2) {
-                    for (let i = 1; i < xlsxData.length; i++) {
-                        row = xlsxData[i];
-                        if (row.length && row.length > 3) {
-                            console.log('insert...', row)
-                            await app.mysql.insert('offset', {
-                                lat: row[1] - 0,
-                                lng: row[0] - 0,
-                                lat_offset: row[3] - 0,
-                                lng_offset: row[2] - 0
-                            });
-                        }
-                    }
-                    console.log('over....')
-                }
-                return true;
-            } catch (err) {
-                throw err;
-            }
-        })
-    }
-    async getGoogleOffset () {
-        const { ctx, app } = this;
-        ctx.body = '<h1>process...!!!</h1>'
-        process.nextTick(async () => {
-            const minLng = 113.117
-            const minLat = 24.000
-            const maxLng = 113.500
-            const maxLat = 28
-            let lng = minLng
-            let lat = minLat
-            let count = 0
-            let result = null
-            let offsetLng = 0
-            let offsetLat = 0
-            for (; lng < maxLng; lng = lng + 0.001) {
-                lat = count == 0 ? 24.103 : minLat
-                for (; lat < maxLat; lat = lat + 0.001) {
-                    result = await ctx.curl(`http://map.yanue.net/gpsapi.php?lat=${lat}&lng=${lng}`, {
-                        dataType: 'json', timeout: 30000
-                    })
-                    if (result.data.error == 0) {
-                        const googleGeo = result.data.google
-                        offsetLng = googleGeo.lng - lng
-                        offsetLat = googleGeo.lat - lat
-                        await app.mysql.insert('offset', {
-                            lat: lat.toFixed(3) - 0,
-                            lng: lng.toFixed(3) - 0,
-                            lat_offset: offsetLat,
-                            lng_offset: offsetLng
-                        });
-                        console.log(++count, lng.toFixed(3), lat.toFixed(3), offsetLng, offsetLat)
-                        // for (let i = 0; i < 100; i++) {}
-                    } else {
-                        console.log('出错了....', lng, lat)
-                    }
-                }
-            }
-        })
-    }
+class SysService extends Service {
     async rectify (imageDir) {
         const { ctx, app } = this;
         ctx.body = '<h1>process...!!!</h1>'
@@ -155,4 +67,4 @@ class AdminService extends Service {
     }
 }
 
-module.exports = AdminService;
+module.exports = SysService;

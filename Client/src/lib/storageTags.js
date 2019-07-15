@@ -1,5 +1,5 @@
 // localstorage标签定义
-const prefixTag = 'yufeng-gis'
+const prefixTag = 'yufeng-gis-platform'
 export default {
     userToken: `${prefixTag}-token`,
     userId: `${prefixTag}-userid`,

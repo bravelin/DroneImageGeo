@@ -13,14 +13,22 @@ module.exports = appInfo => {
     const config = exports = {};
 
     // use for cookie sign key, should change to your own and keep security
-    config.keys = appInfo.name + '_1557222528762_2696';
+    config.keys = appInfo.name + '_1557222528762_2699';
 
     config.uploadDir = 'd:\\tempUpload'
     config.distDir = 'd:\\DroneImageDist\\'
 
     // add your user config here
     const userConfig = {
-        // myAppName: 'egg',
+    };
+
+    config.jwt = {
+        secret: 'yufengtek@YFZN@123'
+    };
+
+    config.ssl = {
+        path: '.well-known/pki-validation/fileauth.txt',
+        file: 'fileauth.txt'
     };
 
     config.security = {
@@ -29,24 +37,25 @@ module.exports = appInfo => {
         }
     };
 
-    config.multipart = {
-        fileSize: '500mb',
-        fileExtensions: [
-            '.xlsx', '.xls'
-        ]
+    config.sequelize = {
+        dialect: 'mysql',
+        host: 'localhost',
+        port: '3306',
+        username: 'root',
+        password: 'root123',
+        database: 'gis'
     };
 
-    config.mysql = {
-        client: {
-            host: 'localhost',
-            port: '3306',
-            user: 'root',
-            password: 'root123',
-            database: 'gis'
-        },
-        app: true,
-        agent: false
+    config.io = {
+        namespace: {
+            '/': {
+                connectionMiddleware: ['connection'],
+                packetMiddleware: []
+            }
+        }
     };
+
+    config.middleware = ['token'];
 
     return {
         ...config,
