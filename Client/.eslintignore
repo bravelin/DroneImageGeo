@@ -1,0 +1,10 @@
+dist/
+node_modules/
+public/
+static/
+src/lib/ezuikit.js
+src/lib/infoBox_min.js
+src/lib/clusterer.js
+src/lib/MarkerClusterer_min.js
+src/lib/TextIconOverlay_min.js
+src/lib/china.js

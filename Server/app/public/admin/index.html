@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang=zh-cmn-Hans>
+<head>
+    <meta charset=utf-8>
+    <meta http-equiv=X-UA-Compatible content="IE=edge">
+    <meta name=viewport content="width=device-width,initial-scale=1,user-scalable=no,maximum-scale=1,minimum-scale=1,minimal-ui">
+    <meta name=author content="zhangjialin">
+    <meta name=description content="DroneImagesGeoInfoModify">
+    <meta name=renderer content=webkit|ie-stand|ie-comp>
+</head>
+<style>
+    body{
+        padding: 10px 20px;
+    }
+    h1{
+        margin-bottom: 20px;
+    }
+    form{
+        border: 1px solid #f0f0f0;
+        border-radius: 4px;
+        padding: 30px;
+    }
+    input[type=file]{
+        border: 1px solid #c0c0c0;
+        height: 36px;
+        line-height: 36px;
+    }
+    input[type=submit]{
+        height: 36px;
+        line-height: 36px;
+        width: 120px;
+    }
+</style>
+<body>
+    <h1>This is Drone Images Geo Info Rectify Service!!</h1>
+    <h3>Import Google Map Offset Geo Data:</h3>
+    <form action="/api/import" method="POST" enctype ="multipart/form-data">
+        <input type="file" name="file"/>
+        <input type="submit" value="Upload Excel"/>
+    </form>
+</body>
+</html>

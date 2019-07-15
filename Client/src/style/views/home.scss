@@ -1,0 +1,58 @@
+.home-page{
+    position: relative;
+    box-sizing: border-box;
+    padding: 0;
+    .map-container{
+        overflow: hidden;
+        height: 100%;
+    }
+    .change-password-dialog{
+        .dialog-content{
+            min-width: 390px;
+        }
+        .input-wrap{
+            display: flex;
+            align-items: center;
+            height: 50px;
+            background: rgba(#131e22, 0.6);
+            margin-top: 8px;
+            border: 1px solid #74c3e3;
+            border-radius: 4px;
+            &:last-child{
+                margin-bottom: 12px;
+            }
+            &:before{
+                content: "";
+                display: block;
+                width: 32px;
+                height: 32px;
+                background-size: 100% 100%;
+                margin: 0 8px;
+            }
+            &.password-input-wrap:before{
+                background-image: url('../assets/icons/21.png');
+            }
+            &.user-name-input-wrap:before{
+                background-image: url('../assets/icons/20.png');
+            }
+            input{
+                background: transparent;
+                border: none;
+                height: 48px;
+                width: 338px;
+                flex: none;
+                box-sizing: border-box;
+                outline: none;
+                color: #74c3e3;
+                font-size: 14px;
+            }
+            input::-webkit-input-placeholder{
+                font-size: 14px;
+                letter-spacing: 1px;
+            }
+        }
+        .dialog-content>div:nth-of-type(3){
+            margin-top: 14px;
+        }
+    }
+}

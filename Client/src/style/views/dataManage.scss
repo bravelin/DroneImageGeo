@@ -1,0 +1,147 @@
+.data-manage-plane{
+    .pop-button-wrap{
+        padding: 25px 6px 12px;
+        div{
+            display: block;
+            background: #13505d;
+            line-height: 45px;
+            text-align: center;
+            border-radius: 4px;
+            letter-spacing: 5px;
+            cursor: pointer;
+            transition: background-color 0.35s ease-out;
+            &:hover{
+                background-color: #00badb;
+            }
+        }
+    }
+}
+.data-entry-dialog{
+    .dialog-content{
+        width: 680px;
+    }
+}
+.import-export-dialog{
+    .dialog-content{
+        width: 1100px;
+    }
+    .dialog-table >ul{
+        >li{
+            flex: none;
+            &:nth-of-type(1){
+                width: 115px;
+            }
+            &:nth-of-type(2){
+                width: 120px;
+            }
+            &:nth-of-type(3), &:nth-of-type(4), &:nth-of-type(5){
+                width: 115px;
+            }
+            &:nth-of-type(6), &:nth-of-type(7), &:nth-of-type(8), &:nth-of-type(9){
+                width: 90px;
+            }
+            &:nth-of-type(10){
+                width: 150px;
+                position: relative;
+                div.year-selector>ul{
+                    left: 15px;
+                    right: 55px;
+                    top: 39px;
+                    background: #13505d;
+                    >li:hover{
+                        color: #fff;
+                    }
+                }
+            }
+        }
+    }
+    .dialog-condition-bar{
+        >div.import-button{
+            position: absolute;
+            right: 10px;
+            top: 12px;
+            width: 28px;
+            height: 28px;
+            opacity: 0.6;
+            background-image: url('../../assets/icons/22.png');
+            transition: opacity 0.35s ease;
+            cursor: pointer;
+            &:hover{
+                opacity: 1;
+            }
+        }
+    }
+}
+
+.audit-dialog{
+    .dialog-content{
+        width: 800px;
+    }
+    .dialog-table>ul>li{
+        flex: none;
+        &:nth-of-type(1){
+            width: 240px;
+        }
+        &:nth-of-type(3){
+            width: 210px;
+        }
+        &:nth-of-type(2),&:nth-of-type(4){
+            width: 173px;
+        }
+    }
+}
+
+.garden-info-dialog{
+    top: 85px;
+    bottom: auto;
+    height: 855px;
+    left: auto;
+    right: 105px;
+    background-color: rgba(33,33,33,0.33);
+    .dialog-content{
+        min-width: 280px;
+    }
+    .input-wrap{
+        border: 1px solid #74c0e3;
+        border-radius: 4px;
+        margin: 10px 0 0;
+        background: rgba(#131e22, 0.75);
+    }
+    .dialog-ope-buttons{
+        margin: 12px 0 0;
+        padding-bottom: 10px;
+    }
+    .input-item{
+        display: flex;
+        height: 50px;
+        align-items: center;
+        padding: 0 15px;
+        &:not(:last-child){
+            border-bottom: 1px solid #1d2f36;
+        }
+        label{
+            color: #b0b0b0;
+        }
+        input{
+            flex: 1;
+            height: 36px;
+            line-height: 36px;
+            padding: 0 10px;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 14px;
+            // border: 1px solid #f00;
+        }
+    }
+    .data-selector-wrap{
+        .data-selector-input{
+            background: rgba(#49788d, 0.2);
+            border-color: rgba(#74c0e3, 0.2);
+            color: #ddd;
+        }
+        .data-selector-icon-arrow{
+            border-top-color: rgba(#74c0e3, 0.35);
+        }
+    }
+}
