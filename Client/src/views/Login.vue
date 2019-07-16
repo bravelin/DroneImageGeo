@@ -135,7 +135,7 @@
                                 password: that.password.trim(),
                                 loginRemember: that.loginRemember
                             })
-                            setTimeout(() => { that.$router.push({ name: 'home' }) }, 500)
+                            setTimeout(() => { that.$router.push({ name: 'tasks' }) }, 500)
                         }
                         setTimeout(() => { that.isProcessing = false }, 100)
                     })

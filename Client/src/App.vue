@@ -3,7 +3,7 @@
         <HeaderBar></HeaderBar>
         <div class="app-content">
             <NavMenus></NavMenus>
-            <router-view :style="{ height: (winHeight - 60) + 'px' }"/>
+            <router-view :style="{ height: (winHeight - 70) + 'px' }"/>
         </div>
         <Spinner v-show="loading"></Spinner>
         <ChangePassword></ChangePassword>

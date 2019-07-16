@@ -15,9 +15,9 @@ const router = new Router({
             component: () => import('./views/Login.vue')
         },
         {
-            path: '/home',
-            name: 'home', // 首页
-            component: () => import('./views/Home.vue')
+            path: '/tasks',
+            name: 'tasks', // 首页
+            component: () => import('./views/tasks/Main.vue')
         },
         {
             path: '/accounts',

@@ -3,7 +3,8 @@
 @import "spinner.scss";
 
 .page{
-    background: #fff;
+    background: rgba(#131e22, 0.88);
+    padding: 10px 12px 0;
     // border: 1px solid #f00;
 }
 .message-tip {
@@ -124,12 +125,13 @@
     }
 }
 
-.dialog-table{
-    border: 1px solid #74c0e3;
+.data-table{
+    // border: 1px solid #74c0e3;
     border-radius: 4px;
     margin: 10px 0 10px 1px;
-    background: rgba(#131e22, 0.8);
+    background: #131e22;
     overflow: hidden;
+    box-shadow: 0 0 6px 3px rgba(255,255,255,0.09);
     >ul{
         display: flex;
         >li{
@@ -166,6 +168,53 @@
         cursor: pointer;
         &:hover{
             background-color: #74c0e3;
+        }
+    }
+}
+
+.panel-tools{
+    display: flex;
+    height: 45px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #1d2f36;
+    align-items: center;
+    .left{
+        flex: 1;
+        justify-content: flex-start;
+        display: flex;
+    }
+    .right{
+        flex: 1;
+        display: flex;
+        justify-content: flex-end;
+    }
+    input{
+        background: rgba(#131e22, 0.6);
+        border: 1px solid rgba(#74c0e3, 0.3);
+        border-radius: 4px;
+        height: 40px;
+        padding: 0 12px;
+        width: 300px;
+        color: #fff;
+        font-size: 14px;
+        margin-right: 10px;
+    }
+    div.tool-button{
+        background: #1d2f36;
+        padding: 0 20px;
+        display: flex;
+        height: 42px;
+        align-items: center;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background 0.35s ease;
+        line-height: 42px;
+        >i{
+            margin-right: 4px;
+            font-size: 14px;
+        }
+        &:hover{
+            background: darken(#1d2f36, 5%);
         }
     }
 }
