@@ -20,6 +20,17 @@ export default {
             state.delConfirmId = id
         }
     },
+    // 控制修改账号名称弹窗是否显示
+    [types.ACCOUNTS_SWITCH_EDIT_DIALOG_VISIBLE] (state, { id, loginName, realName, isShow }) {
+        if (state.editAccountVisible == isShow) {
+            state.editAccountVisible = !state.editAccountVisible
+        } else {
+            state.editAccountVisible = isShow
+            state.editAccountLoginName = loginName
+            state.editAccountRealName = realName
+            state.editAccountId = id
+        }
+    },
     // 控制重置账号密码的确认弹窗是否显示
     [types.ACCOUNTS_SWITCH_RESET_PW_CONFIRM_VISIBLE] (state, { id, loginName, isShow }) {
         if (state.resetPasswordConfirmVisible == isShow) {
@@ -34,7 +45,7 @@ export default {
     [types.SET_ACCOUNTS_DATA_LIST] (state, payload) {
         state.currentPage = payload.page
         state.currentPageSize = payload.pageSize
-        state.total = payload.total
+        state.totalPage = payload.totalPage
         state.dataList = payload.dataList.map((item, index) => {
             return {
                 index: payload.pageSize * (payload.page - 1) + index + 1,

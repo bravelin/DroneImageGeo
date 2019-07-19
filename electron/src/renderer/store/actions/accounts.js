@@ -8,6 +8,10 @@ export default {
     [types.ACCOUNTS_SWITCH_RESET_PW_CONFIRM_VISIBLE_SYNC] ({ commit }, payload) {
         commit(types.ACCOUNTS_SWITCH_RESET_PW_CONFIRM_VISIBLE, payload)
     },
+    // 控制修改账号名称弹窗是否显示
+    [types.ACCOUNTS_SWITCH_EDIT_DIALOG_VISIBLE_SYNC] ({ commit }, payload) {
+        commit(types.ACCOUNTS_SWITCH_EDIT_DIALOG_VISIBLE, payload)
+    },
     // 控制删除账号的确认弹窗是否显示
     [types.ACCOUNTS_SWITCH_DEL_CONFIRM_VISIBLE_SYNC] ({ commit }, payload) {
         commit(types.ACCOUNTS_SWITCH_DEL_CONFIRM_VISIBLE, payload)

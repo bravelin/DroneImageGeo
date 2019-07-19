@@ -29,13 +29,15 @@
                 <li>
                     <div class="dialog-table-button" v-if="item.role!='0'" @click="doDel(item)">删除</div>
                     <div class="dialog-table-button" v-if="item.role!='0'" @click="doResetPassword(item)">重置密码</div>
-                    <div class="dialog-table-button" v-if="item.role!='0'">修改名称</div>
+                    <div class="dialog-table-button" v-if="item.role!='0'" @click="doEdit(item)">修改名称</div>
                 </li>
             </ul>
+            <Pagination :total="totalPage" :curr="currPage"></Pagination>
         </div>
         <AddDialog @refresh="doSearch()"></AddDialog>
         <ResetPasswordConfirm></ResetPasswordConfirm>
         <DelConfirm @refresh="doSearch()"></DelConfirm>
+        <EditDialog @refresh="doSearch()"></EditDialog>
     </div>
 </template>
 <script>
@@ -45,15 +47,22 @@
     import AddDialog from './AddDialog'
     import ResetPasswordConfirm from './ResetPasswordConfirm'
     import DelConfirm from './DelConfirm'
+    import EditDialog from './EditDialog'
 
     export default {
         name: 'Accounts',
         components: {
-            AddDialog, ResetPasswordConfirm, DelConfirm
+            AddDialog, ResetPasswordConfirm, DelConfirm, EditDialog
         },
         computed: {
             dataList () {
                 return this.$store.state[ns.ACCOUNTS].dataList
+            },
+            totalPage () {
+                return this.$store.state[ns.ACCOUNTS].totalPage
+            },
+            currPage () {
+                return this.$store.state[ns.ACCOUNTS].currentPage
             }
         },
         data () {
@@ -109,6 +118,12 @@
             doDel ({ id, loginName }) {
                 this.$store.dispatch(ns.ACCOUNTS + '/' + types.ACCOUNTS_SWITCH_DEL_CONFIRM_VISIBLE_SYNC, {
                     id, loginName, isShow: true
+                })
+            },
+            // 修改账号名
+            doEdit ({ id, loginName, realName }) {
+                this.$store.dispatch(ns.ACCOUNTS + '/' + types.ACCOUNTS_SWITCH_EDIT_DIALOG_VISIBLE_SYNC, {
+                    id, loginName, isShow: true, realName
                 })
             }
         }

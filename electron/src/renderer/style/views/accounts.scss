@@ -23,7 +23,7 @@
             }
         }
     }
-    .add-account-dialog{
+    .add-account-dialog, .edit-account-dialog{
         .input-wrap{
             position: relative;
             margin-top: 10px;
@@ -35,6 +35,12 @@
                 color: #fff;
                 font-size: 14px;
                 background: rgba(#131e22, 0.6);
+            }
+            input:disabled{
+                opacity: 0.4;
+                background: rgba(#cccccc, 0.1);
+                border-color: rgba(#74c3e3, 0.3);
+                cursor: not-allowed;
             }
             label{
                 position: absolute;

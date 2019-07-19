@@ -5,14 +5,21 @@ const state = {
     dataList: [],
     currentPage: 1,
     currentPageSize: 15,
-    total: 0,
+    totalPage: 0,
     addDialogVisible: false,
+
     resetPasswordConfirmId: '', // 账号ID
     resetPasswordConfirmLoginName: '', // 账号名
     resetPasswordConfirmVisible: false, // 确认弹窗是否显示
+
     delConfirmVisible: false,
     delConfirmLoginName: false,
-    delConfirmId: false
+    delConfirmId: false,
+
+    editAccountId: '',
+    editAccountLoginName: '',
+    editAccountVisible: false,
+    editAccountRealName: ''
 }
 
 export default {

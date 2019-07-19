@@ -412,13 +412,13 @@
         cursor: pointer;
         transition: background-color 0.35s ease;
         &:hover:not(.disable){
-            background-color: rgba(#74c0e3, 0.5);
+            background-color: rgba(#1d2f36, 0.8);
         }
         &.disable{
             cursor: not-allowed;
         }
         &.curr{
-            background-color: rgba(#74c0e3, 0.85);
+            background-color: rgba(lighten(#1d2f36, 10%), 0.85);
         }
         &:not(:last-child){
             margin-right: 10px;
