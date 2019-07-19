@@ -1,10 +1,6 @@
+import types from '../constants/types'
 export default {
-    DECREMENT (state) {
-        state.data--
-        console.log('state.data---', state.data)
-    },
-    INCREMENT_MAIN_COUNTER (state, payload) {
-        state.data++
-        console.log('state.data+++', state.data, payload)
+    [types.ACCOUNTS_SWITCH_ADD_DIALOG_VISIBLE] (state, isShow) {
+        state.addDialogVisible = isShow
     }
 }

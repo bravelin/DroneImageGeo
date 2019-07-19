@@ -38,6 +38,5 @@ export default {
     },
     [types.SWITCH_CHANGE_PW_DIALOG_STATUS] (state, payload) {
         state.changePwDialogStatus = payload
-        console.log('global mutation...', payload, state)
     }
 }

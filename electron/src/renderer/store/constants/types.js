@@ -14,7 +14,10 @@ const types = [
     'SWITCH_MESSAGE_TIP_SYNC',
     'SWITCH_MESSAGE_TIP', // 控制NoResult提示的显示
     'SWITCH_CHANGE_PW_DIALOG_STATUS_SYNC',
-    'SWITCH_CHANGE_PW_DIALOG_STATUS' // 修改密码Dialog是否显示
+    'SWITCH_CHANGE_PW_DIALOG_STATUS', // 修改密码Dialog是否显示
+
+    'ACCOUNTS_SWITCH_ADD_DIALOG_VISIBLE_SYNC', // 控制添加账号弹窗是否显示
+    'ACCOUNTS_SWITCH_ADD_DIALOG_VISIBLE'
 ]
 
 const typesObj = {}
