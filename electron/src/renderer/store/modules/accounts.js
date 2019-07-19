@@ -6,8 +6,6 @@ const state = {
     currentPage: 1,
     currentPageSize: 20,
     total: 0,
-    searchKey: '',
-    loading: false,
     addDialogVisible: false
 }
 

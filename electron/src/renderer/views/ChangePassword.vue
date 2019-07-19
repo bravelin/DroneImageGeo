@@ -27,6 +27,7 @@
     import types from '@/store/constants/types'
     import { aesEncrypt } from '@/lib/util'
     import tags from '@/lib/tags'
+    import api from '@/lib/api'
 
     const prop = `$store.state.global.changePwDialogStatus`
     export default {
@@ -101,7 +102,7 @@
                     store.dispatch(types.SWITCH_LOADING_SYNC, true)
                     that.$ajax({
                         method: 'post',
-                        url: '/api/users/update',
+                        url: api.UPDATE_ACCOUNT,
                         data: { realName: that.userName, password: aesEncrypt(that.password), oldPassword: aesEncrypt(that.oldPassword) }
                     }).then(res => {
                         store.dispatch(types.SWITCH_LOADING_SYNC, false)

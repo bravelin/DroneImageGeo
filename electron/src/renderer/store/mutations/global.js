@@ -36,7 +36,11 @@ export default {
         state.showMessageTip = payload.show
         state.tip = payload.tip
     },
-    [types.SWITCH_CHANGE_PW_DIALOG_STATUS] (state, payload) {
-        state.changePwDialogStatus = payload
+    [types.SWITCH_CHANGE_PW_DIALOG_STATUS] (state, isShow) {
+        if (state.changePwDialogStatus == isShow) {
+            state.changePwDialogStatus = !state.changePwDialogStatus
+        } else {
+            state.changePwDialogStatus = isShow
+        }
     }
 }

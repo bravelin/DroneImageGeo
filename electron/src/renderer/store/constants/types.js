@@ -17,7 +17,9 @@ const types = [
     'SWITCH_CHANGE_PW_DIALOG_STATUS', // 修改密码Dialog是否显示
 
     'ACCOUNTS_SWITCH_ADD_DIALOG_VISIBLE_SYNC', // 控制添加账号弹窗是否显示
-    'ACCOUNTS_SWITCH_ADD_DIALOG_VISIBLE'
+    'ACCOUNTS_SWITCH_ADD_DIALOG_VISIBLE',
+    'SET_ACCOUNTS_DATA_LIST_SYNC', // 设置数据
+    'SET_ACCOUNTS_DATA_LIST'
 ]
 
 const typesObj = {}

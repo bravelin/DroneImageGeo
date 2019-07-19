@@ -35,6 +35,7 @@
     import tags from '@/lib/tags'
     import types from '@/store/constants/types'
     import { aesEncrypt } from '@/lib/util'
+    import api from '@/lib/api'
 
     const ls = localStorage
     export default {
@@ -115,7 +116,7 @@
                     that.isProcessing = true
                     store.dispatch(types.SWITCH_LOADING_SYNC, true)
                     that.$ajax({
-                        url: '/api/login',
+                        url: api.LOGIN,
                         method: 'post',
                         data: { loginName: that.loginName.trim(), password: aesEncrypt(that.password) }
                     }).then(res => {

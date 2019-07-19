@@ -6,17 +6,12 @@ class UserController extends Controller {
     async index () {
         const { ctx, service } = this;
         const helper = ctx.helper;
-        const resData = await service.user.queryAll();
-        helper.success(ctx, resData);
-
-        const { ctx, service } = this;
-        const helper = ctx.helper;
         const query = ctx.query || {};
         // 查询条件
         const page = (query.page || 1) - 0;
         const pageSize = (query.pageSize || 15) - 0;
         const searchKey = query.key ? decodeURIComponent(query.key) : '';
-        const resData = await service.article.query({ page, pageSize, searchKey });
+        const resData = await service.user.queryAll({ page, pageSize, searchKey });
         helper.success(ctx, resData);
     }
 

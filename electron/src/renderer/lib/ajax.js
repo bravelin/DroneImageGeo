@@ -14,8 +14,8 @@ axios.interceptors.request.use(config => {
         }
         config.headers['x-csrf-token'] = csrfToken
     }
-    config.headers['Authorization'] = `Bearer ${store.state.userToken}`
-    config.headers['uid'] = store.state.userId
+    config.headers['Authorization'] = `Bearer ${store.state.global.userToken}`
+    config.headers['uid'] = store.state.global.userId
     return config
 }, error => {
     return Promise.reject(error)
@@ -26,7 +26,8 @@ axios.interceptors.response.use(res => {
     const resData = res.data
     // console.log('ajax res', resData)
     if (resData.code === 401) { // 跳转至登录
-        store.state.currRouter.instance.push({ name: 'login' })
+        // store.state.global.currRouter.instance.push({ name: 'login' })
+        console.log('to login page...')
         return Promise.reject(res)
     } else {
         return Promise.resolve(res)

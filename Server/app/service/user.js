@@ -4,9 +4,9 @@ const crypto = require('crypto');
 class UserService extends Service {
     // 分页查询所有账号
     async queryAll ({ searchKey, page, pageSize }) {
-        const { ctx, service, app } = this;
+        const { ctx, app } = this;
         const Sequelize = app.Sequelize;
-        let countSql = 'select count(*) as count '; // 计算总数的sql
+        let countSql = 'select count(*) as count from user '; // 计算总数的sql
         let dataSql = ''; // 查询数据的sql
         let sql = `select id, loginName, realName, lastLoginTime, role, createdAt from user `;
         let conditionSql = `where status !='0' `
