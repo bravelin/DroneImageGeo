@@ -9,8 +9,7 @@ const state = {
     currRouter: { // 当前页面路由信息
         from: '',
         to: '',
-        query: null,
-        instance: null // 路由实例
+        query: null
     },
     loading: false, // loading的状态
     // 与当前登录用户的相关状态

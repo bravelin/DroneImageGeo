@@ -9,11 +9,12 @@
 </template>
 <script>
     import types from '@/store/constants/types'
-    import { mapState } from 'vuex'
     export default {
         name: 'Header',
         computed: {
-            ...mapState(['realName'])
+            realName () {
+                return this.$store.state.global.realName
+            }
         },
         methods: {
             doLogout () {

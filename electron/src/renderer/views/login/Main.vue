@@ -60,15 +60,11 @@
             const store = that.$store
             store.dispatch(types.SWITCH_LOADING_SYNC, false)
             document.body.addEventListener('keypress', that.doPresskey)
-            // setTimeout(() => {
-            //     that.$router.push({ name: 'tasks' })
-            // }, 3000)
         },
         mounted () {
             const that = this
             that.$nextTick(() => {
-                const state = that.$store.state
-                const loginName = state.userName
+                const loginName = ls.getItem(tags.userName) || ''
                 const password = ls.getItem(tags.password) || ''
                 const refs = that.$refs
                 setTimeout(() => {
@@ -156,7 +152,6 @@
                                 ls.removeItem(tags.userRole)
                                 ls.removeItem(tags.password)
                             }
-                            console.log('8888')
                             // 页面跳转
                             setTimeout(() => {
                                 that.$router.push({ name: 'tasks' })

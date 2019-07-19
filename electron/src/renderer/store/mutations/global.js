@@ -12,7 +12,6 @@ export default {
         currRouter.from = payload.from
         currRouter.to = payload.to
         currRouter.query = payload.query
-        currRouter.instance = payload.instance
         if (!currRouter.to) {
             state.loading = false
         }
@@ -39,5 +38,6 @@ export default {
     },
     [types.SWITCH_CHANGE_PW_DIALOG_STATUS] (state, payload) {
         state.changePwDialogStatus = payload
+        console.log('global mutation...', payload, state)
     }
 }

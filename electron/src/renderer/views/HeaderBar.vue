@@ -9,20 +9,24 @@
 </template>
 <script>
     import types from '@/store/constants/types'
-    import { mapState } from 'vuex'
     import tags from '@/lib/tags'
 
     export default {
         name: 'Header',
         computed: {
-            ...mapState(['realName'])
+            realName () {
+                return this.$store.state.global.realName
+            },
+            changePwDialogStatus () {
+                return this.$store.state.global.changePwDialogStatus.toString()
+            }
         },
         methods: {
             doLogout () {
                 const that = this
                 const store = that.$store
                 const ls = localStorage
-                store.dispatch(types.CLEAR_USER_INFO)
+                store.dispatch(types.CLEAR_USER_INFO_SYNC)
                 // localstorage处理
                 ls.removeItem(tags.userToken)
                 ls.removeItem(tags.userId)
@@ -35,7 +39,8 @@
                 that.$router.push({ name: 'login' })
             },
             doShowUserInfo () {
-                this.$store.dispatch(types.SWITCH_CHANGE_PW_DIALOG_STATUS, true)
+                console.log('doShowUserInfo。。。。')
+                this.$store.dispatch(types.SWITCH_CHANGE_PW_DIALOG_STATUS_SYNC, true)
             }
         }
     }

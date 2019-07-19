@@ -59,8 +59,8 @@
                 const winHeight = doc.documentElement.clientHeight || win.innerHeight
                 const winWidth = doc.documentElement.clientWidth || win.innerWidth
                 doc.body.style.minHeight = winHeight + 'px'
-                console.log(winHeight, winWidth)
                 this.$store.dispatch(types.SET_WINDOW_SIZE_SYNC, { winHeight, winWidth })
+                win.ss = this.$store.state
             }
         }
     }

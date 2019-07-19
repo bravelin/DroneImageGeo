@@ -35,8 +35,7 @@ router.beforeEach((to, from, next) => {
     store.dispatch(types.SET_CURR_ROUTER_SYNC, {
         from: from.name,
         to: to.name,
-        query: to.query,
-        instance: router
+        query: to.query
     })
     if (to.name && to.name !== from.name) {
         store.dispatch(types.SWITCH_LOADING_SYNC, true)

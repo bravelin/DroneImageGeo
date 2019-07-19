@@ -3,12 +3,12 @@
 </template>
 <script>
     import types from '@/store/constants/types'
-    const showProp = `$store.state.showMessageTip`
+    const showProp = `$store.state.global.showMessageTip`
     export default {
         name: 'NoResult',
         computed: {
             tip () {
-                return this.$store.state.tip
+                return this.$store.state.global.tip
             }
         },
         watch: {
@@ -20,7 +20,7 @@
                     setTimeout(() => {
                         el && el.classList.remove('active')
                         setTimeout(() => { el && el.classList.remove('show') }, 100)
-                        this.$store.dispatch(types.SWITCH_MESSAGE_TIP, { show: false })
+                        this.$store.dispatch(types.SWITCH_MESSAGE_TIP_SYNC, { show: false })
                     }, 3000)
                 }
             }

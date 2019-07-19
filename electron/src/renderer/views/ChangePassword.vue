@@ -24,16 +24,20 @@
     </Dialog>
 </template>
 <script>
-    import { mapState } from 'vuex'
     import types from '@/store/constants/types'
     import { aesEncrypt } from '@/lib/util'
     import tags from '@/lib/tags'
 
-    const prop = `$store.state.changePwDialogStatus`
+    const prop = `$store.state.global.changePwDialogStatus`
     export default {
         name: 'ChangePassword',
         computed: {
-            ...mapState(['changePwDialogStatus', 'realName'])
+            changePwDialogStatus () {
+                return this.$store.state.global.changePwDialogStatus
+            },
+            realName () {
+                return this.$store.state.global.realName
+            }
         },
         watch: {
             [prop] (newVal) {
@@ -56,13 +60,13 @@
         },
         methods: {
             doDialogClose () {
-                this.$store.dispatch(types.SWITCH_CHANGE_PW_DIALOG_STATUS, false)
+                this.$store.dispatch(types.SWITCH_CHANGE_PW_DIALOG_STATUS_SYNC, false)
             },
             checkForm () {
                 const that = this
                 const refs = that.$refs
                 const store = that.$store
-                const type = types.SWITCH_MESSAGE_TIP
+                const type = types.SWITCH_MESSAGE_TIP_SYNC
                 if (!that.userName.trim()) {
                     refs.userName.focus()
                     store.dispatch(type, { show: true, tip: '请输入您的中文名称！' })
@@ -92,15 +96,15 @@
             doCommit () {
                 const that = this
                 const store = that.$store
-                const type = types.SWITCH_MESSAGE_TIP
+                const type = types.SWITCH_MESSAGE_TIP_SYNC
                 if (that.checkForm()) {
-                    store.dispatch(types.SWITCH_LOADING, true)
+                    store.dispatch(types.SWITCH_LOADING_SYNC, true)
                     that.$ajax({
                         method: 'post',
                         url: '/api/users/update',
                         data: { realName: that.userName, password: aesEncrypt(that.password), oldPassword: aesEncrypt(that.oldPassword) }
                     }).then(res => {
-                        store.dispatch(types.SWITCH_LOADING, false)
+                        store.dispatch(types.SWITCH_LOADING_SYNC, false)
                         if (res.code == 200) {
                             store.dispatch(type, { show: true, tip: '更新成功！' })
                             store.dispatch(types.UPDATE_ACCOUNT_SYNC, { realName: that.userName, password: that.password })
@@ -110,7 +114,7 @@
                                     ls.setItem(tags.realName, that.realName)
                                     ls.setItem(tags.password, that.password)
                                 }
-                                store.dispatch(types.SWITCH_CHANGE_PW_DIALOG_STATUS, false)
+                                store.dispatch(types.SWITCH_CHANGE_PW_DIALOG_STATUS_SYNC, false)
                             }, 1000)
                         } else {
                             store.dispatch(type, { show: true, tip: res.message || '更新失败！' })
