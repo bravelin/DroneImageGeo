@@ -425,3 +425,22 @@
         }
     }
 }
+
+.confirm-dialog{
+    .confirm-content{
+        font-size: 15px;
+        line-height: 2.4;
+        padding-top: 15px;
+        padding-left: 15px;
+        letter-spacing: 1px;
+        span{
+            color: #cc9900;
+        }
+        .mini-text{
+            font-size: 12px;
+            line-height: 2.0;
+            color: #FFCC99;
+            letter-spacing: 0;
+        }
+    }
+}

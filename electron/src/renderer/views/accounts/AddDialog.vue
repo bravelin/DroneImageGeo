@@ -24,6 +24,7 @@
     import ns from '@/store/constants/ns'
     import { aesEncrypt } from '@/lib/util'
     import api from '@/lib/api'
+    import config from '@/lib/config'
 
     const prop = `$store.state.${ns.ACCOUNTS}.addDialogVisible`
     export default {
@@ -39,7 +40,7 @@
                     const that = this
                     that.loginName = ''
                     that.realName = ''
-                    that.password = 'yfgeo@123' // 统一的初始密码
+                    that.password = config.initPassword // 统一的初始密码
                 }
             }
         },

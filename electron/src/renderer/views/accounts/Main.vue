@@ -27,13 +27,15 @@
                 <li>{{ item.createdAt }}</li>
                 <li>{{ item.lastLoginTime }}</li>
                 <li>
-                    <div class="dialog-table-button" v-if="item.role!='0'">删除</div>
-                    <div class="dialog-table-button" v-if="item.role!='0'">重置密码</div>
+                    <div class="dialog-table-button" v-if="item.role!='0'" @click="doDel(item)">删除</div>
+                    <div class="dialog-table-button" v-if="item.role!='0'" @click="doResetPassword(item)">重置密码</div>
                     <div class="dialog-table-button" v-if="item.role!='0'">修改名称</div>
                 </li>
             </ul>
         </div>
         <AddDialog @refresh="doSearch()"></AddDialog>
+        <ResetPasswordConfirm></ResetPasswordConfirm>
+        <DelConfirm @refresh="doSearch()"></DelConfirm>
     </div>
 </template>
 <script>
@@ -41,11 +43,13 @@
     import ns from '@/store/constants/ns'
     import api from '@/lib/api'
     import AddDialog from './AddDialog'
+    import ResetPasswordConfirm from './ResetPasswordConfirm'
+    import DelConfirm from './DelConfirm'
 
     export default {
         name: 'Accounts',
         components: {
-            AddDialog
+            AddDialog, ResetPasswordConfirm, DelConfirm
         },
         computed: {
             dataList () {
@@ -91,8 +95,21 @@
                     }
                 })
             },
+            // 添加账号
             doAddAccount () {
                 this.$store.dispatch(ns.ACCOUNTS + '/' + types.ACCOUNTS_SWITCH_ADD_DIALOG_VISIBLE_SYNC, true)
+            },
+            // 重置账号密码
+            doResetPassword ({ id, loginName }) {
+                this.$store.dispatch(ns.ACCOUNTS + '/' + types.ACCOUNTS_SWITCH_RESET_PW_CONFIRM_VISIBLE_SYNC, {
+                    id, loginName, isShow: true
+                })
+            },
+            // 删除账号
+            doDel ({ id, loginName }) {
+                this.$store.dispatch(ns.ACCOUNTS + '/' + types.ACCOUNTS_SWITCH_DEL_CONFIRM_VISIBLE_SYNC, {
+                    id, loginName, isShow: true
+                })
             }
         }
     }
