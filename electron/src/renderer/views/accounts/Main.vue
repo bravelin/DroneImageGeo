@@ -19,20 +19,23 @@
                 <li>上次登录时间</li>
                 <li>操作</li>
             </ul>
-            <ul v-for="item in dataList" :key="item.id">
-                <li>{{ item.index }}</li>
-                <li>{{ item.loginName }}</li>
-                <li>{{ item.realName }}</li>
-                <li>{{ item.roleName }}</li>
-                <li>{{ item.createdAt }}</li>
-                <li>{{ item.lastLoginTime }}</li>
-                <li>
-                    <div class="dialog-table-button" v-if="item.role!='0'" @click="doDel(item)">删除</div>
-                    <div class="dialog-table-button" v-if="item.role!='0'" @click="doResetPassword(item)">重置密码</div>
-                    <div class="dialog-table-button" v-if="item.role!='0'" @click="doEdit(item)">修改名称</div>
-                </li>
-            </ul>
-            <Pagination :total="totalPage" :curr="currPage"></Pagination>
+            <template v-if="dataList.length">
+                <ul v-for="item in dataList" :key="item.id">
+                    <li>{{ item.index }}</li>
+                    <li>{{ item.loginName }}</li>
+                    <li>{{ item.realName }}</li>
+                    <li>{{ item.roleName }}</li>
+                    <li>{{ item.createdAt }}</li>
+                    <li>{{ item.lastLoginTime }}</li>
+                    <li>
+                        <div class="dialog-table-button" v-if="item.role!='0'" @click="doDel(item)">删除</div>
+                        <div class="dialog-table-button" v-if="item.role!='0'" @click="doResetPassword(item)">重置密码</div>
+                        <div class="dialog-table-button" v-if="item.role!='0'" @click="doEdit(item)">修改名称</div>
+                    </li>
+                </ul>
+            </template>
+            <div v-else class="no-data-list">未能查询到数据！</div>
+            <Pagination :total="totalPage" :curr="currPage" v-show="dataList.length"></Pagination>
         </div>
         <AddDialog @refresh="doSearch()"></AddDialog>
         <ResetPasswordConfirm></ResetPasswordConfirm>

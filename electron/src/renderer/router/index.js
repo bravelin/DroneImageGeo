@@ -15,6 +15,11 @@ const router = new Router({
             component: require('@/views/login/Main').default
         },
         {
+            path: '/guide',
+            name: 'guide', // 说明引导
+            component: require('@/views/guide/Main').default
+        },
+        {
             path: '/tasks',
             name: 'tasks', // 任务列表
             component: require('@/views/tasks/Main').default
@@ -23,6 +28,21 @@ const router = new Router({
             path: '/accounts',
             name: 'accounts', // 账号管理
             component: require('@/views/accounts/Main').default
+        },
+        {
+            path: '/addGeo',
+            name: 'addGeo', // 图片工具 - 添加经纬度
+            component: require('@/views/tools/addGeo/Main').default
+        },
+        {
+            path: '/previewTiles',
+            name: 'previewTiles', // 图片工具 - 预览谷歌瓦片地图
+            component: require('@/views/tools/previewTiles/Main').default
+        },
+        {
+            path: '/rectifyGeo',
+            name: 'rectifyGeo', // 图片工具 - 经纬度纠偏
+            component: require('@/views/tools/rectifyGeo/Main').default
         },
         {
             path: '*',

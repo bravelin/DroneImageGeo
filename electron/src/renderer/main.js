@@ -10,6 +10,7 @@ import PlaneSubTitle from '@/components/PlaneSubTitle'
 import Dialog from '@/components/Dialog'
 import DataSelector from '@/components/DataSelector'
 import Pagination from '@/components/Pagination'
+import ProgressBar from '@/components/ProgressBar'
 
 // 公用组件
 Vue.component('PlaneSubTab', PlaneSubTab)
@@ -17,6 +18,7 @@ Vue.component('PlaneSubTitle', PlaneSubTitle)
 Vue.component('Dialog', Dialog)
 Vue.component('DataSelector', DataSelector)
 Vue.component('Pagination', Pagination)
+Vue.component('ProgressBar', ProgressBar)
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.prototype.$ajax = ajax

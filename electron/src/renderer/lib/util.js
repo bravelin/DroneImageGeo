@@ -54,3 +54,38 @@ export function formatTime (date, format = 'yyyy-MM-dd hh:mm:ss') {
     }
     return format
 }
+
+export function formatPhotoTime (timeStr) {
+    if (timeStr) {
+        const arr = timeStr.split(' ')
+        if (arr.length == 2) {
+            return arr[0].replace(/:/g, '-') + ' ' + arr[1]
+        } else {
+            return ''
+        }
+    }
+    return ''
+}
+
+export function fromatFileSize (size) {
+    if (size < 1024) {
+        return size + 'B'
+    }
+    const kb = size / 1024
+    if (kb < 1024) {
+        return kb.toFixed(1) + 'KB'
+    }
+    const mb = kb / 1024
+    if (mb < 1024) {
+        return mb.toFixed(1) + 'MB'
+    }
+    return (mb / 1024) + 'GB'
+}
+
+// 将经纬度小数形式转成度分秒
+export function convertGeoNum (num) {
+    const deg = parseInt(num)
+    const min = parseInt((num - deg) * 60)
+    const sec = parseInt(((num - deg) * 60 - min) * 60 * 10000)
+    return { deg, min, sec }
+}

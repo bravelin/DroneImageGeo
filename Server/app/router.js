@@ -20,5 +20,6 @@ module.exports = app => {
     router.post('/api/users', controller.user.create); // 创建账号
     router.delete('/api/users/:id', controller.user.destroy); // 删除账号
 
+    router.get('/api/geo/rectify', controller.geo.rectify); // 获取纠偏之后的经纬度
     router.get('/*', controller.sys.index); // 返回页面
 };

@@ -1,24 +1,32 @@
-<!--弹窗-->
+<!--模态弹窗进度条-->
 <template>
-    <div class="dialog">
+    <div class="progress-bar dialog">
         <div class="dialog-content" :class="{ active: contentActive }">
-            <PlaneSubTitle :title="title"></PlaneSubTitle>
-            <div class="close-button" @click="doClose()">&times;</div>
-            <slot></slot>
+            <h3>请稍候，正在处理...</h3>
+            <div class="bar-content">
+                <div><div :style="{ width: progress + '%' }"></div></div>
+                <div>{{ curr }}/{{ total }}</div>
+            </div>
         </div>
     </div>
 </template>
 <script>
     export default {
-        name: 'Dialog',
+        name: 'ProgressBar',
         props: {
-            title: {
-                type: String,
-                default: ''
-            },
             show: {
                 type: Boolean,
                 default: false
+            },
+            curr: {
+                type: Number,
+                default: 0,
+                required: true
+            },
+            total: {
+                type: Number,
+                default: 100,
+                required: true
             }
         },
         watch: {
@@ -31,6 +39,11 @@
                     that.contentActive = false
                     setTimeout(() => { that.$el.style.display = '' }, 300)
                 }
+            }
+        },
+        computed: {
+            progress () {
+                return (this.curr / this.total) * 100
             }
         },
         data () {

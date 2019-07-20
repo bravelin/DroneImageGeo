@@ -10,12 +10,14 @@
 .message-tip {
     display: none;
     position: fixed;
-    width: 300px;
+    width: auto;
+    padding-left: 15px;
+    padding-right: 15px;
     height: 80px;
     line-height: 80px;
     top: 45%;
     left: 50%;
-    margin-left: -150px;
+    // margin-left: -150px;
     text-align: center;
     color: #fff;
     background: rgba(#0c426c, 0.8);
@@ -25,15 +27,50 @@
     letter-spacing: 5px;
     box-shadow: 0 0 6px 3px rgba(255,255,255,0.1);
     opacity: 0;
-    transform: translateY(190px);
+    transform: translate(-50%, 190px);
     transition: transform 0.3s ease-out, opacity 0.5s linear;
     z-index: 99999;
     &.show{
         display: block;
     }
     &.active{
-        transform: translateY(0);
+        transform: translate(-50%, 0);
         opacity: 1;
+    }
+}
+
+.progress-bar{
+    .dialog-content{
+        h3{
+            padding: 24px 5px 14px 5px;
+            font-size: 15px;
+            font-weight: normal;
+            letter-spacing: 2px;
+        }
+        .bar-content{
+            display: flex;
+            height: 35px;
+            align-items: center;
+            margin-bottom: 20px;
+            // border: 1px solid #f00;
+            >div:nth-of-type(1){
+                position: relative;
+                width: 425px;
+                border-radius: 30px;
+                height: 14px;
+                background: #0c426c;
+                margin-right: 10px;
+                overflow: hidden;
+                >div{
+                    height: 100%;
+                    background: darken(#00badb, 10%);
+                    border-radius: 30px;
+                    width: 0;
+                    transition: width 0.3s ease-out;
+                    will-change: width;
+                }
+            }
+        }
     }
 }
 
@@ -154,8 +191,11 @@
     margin: 10px 0 10px 1px;
     background: #131e22;
     overflow: hidden;
-    box-shadow: 0 0 6px 3px rgba(255,255,255,0.09);
+    &.shadow{
+        box-shadow: 0 0 6px 3px rgba(255,255,255,0.09);
+    }
     >ul{
+        color: #d0d0d0;
         display: flex;
         >li{
             flex: 1;
@@ -196,6 +236,15 @@
             background-color: lighten(#1d2f36, 10%);
         }
     }
+
+    .no-data-list{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 200px;
+        color: #ccc;
+        letter-spacing: 2px;
+    }
 }
 
 .panel-tools{
@@ -235,12 +284,77 @@
         cursor: pointer;
         transition: background 0.35s ease;
         line-height: 42px;
+        letter-spacing: 1px;
         >i{
-            margin-right: 4px;
+            margin-right: 5px;
             font-size: 14px;
         }
         &:hover{
             background: darken(#1d2f36, 5%);
+        }
+        &.brown{
+            background: #4E342E;
+            &:hover{
+                background: darken(#4E342E, 5%);
+            }
+        }
+        &.lime{
+            background: darken(#827717, 5%);
+            &:hover{
+                background: darken(#827717, 10%);
+            }
+        }
+    }
+    div.file-button{
+        position: relative;
+        input{
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            font-size: 12px;
+            opacity: 0;
+        }
+        &.disabled{
+            cursor: not-allowed;
+            opacity: 0.5;
+            input{
+                display: none;
+            }
+        }
+    }
+    div.check-button{
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        letter-spacing: 1px;
+        height: 42px;
+        // border: 1px solid #f00;
+        >i.iconfont{
+            margin-right: 5px;
+            margin-top: 2px;
+        }
+        >i{
+            &:nth-of-type(2){
+                display: none;
+            }
+        }
+        &.active{
+            >i{
+                &:nth-of-type(1){
+                    display: none;
+                }
+                &:nth-of-type(2){
+                    display: block;
+                }
+            }
+        }
+        &.disabled{
+            cursor: not-allowed;
+            opacity: 0.5;
         }
     }
 }

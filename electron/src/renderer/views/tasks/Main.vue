@@ -1,5 +1,6 @@
+<!--任务列表-->
 <template>
-    <h1>Task Page</h1>
+    <h1 style="color:#000">Task Page</h1>
 </template>
 <script>
     import types from '@/store/constants/types'
