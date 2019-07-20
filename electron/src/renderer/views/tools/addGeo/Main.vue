@@ -14,6 +14,7 @@
             </div>
             <div class="right">
                 <div class="tool-button" @click="doStart()" v-show="currStatus==0">开始处理</div>
+                <div class="tool-button" @click="doReset()" v-show="currStatus==1">重置</div>
             </div>
         </div>
         <ul class="info-list">
@@ -315,6 +316,19 @@
             // 关闭进度条
             doHideProgressBar () {
                 this.showProgressBar = false
+            },
+            // 重置
+            doReset () {
+                const that = this
+                that.currStatus = 0
+                that.images = []
+                that.geoDataList = []
+                that.currAddAmount = 0
+                that.showProgressBar = false
+                that.needRectify = true
+                that.originImagePath = ''
+                that.geoTextFilePath = ''
+                that.distImagePath = ''
             }
         }
     }
