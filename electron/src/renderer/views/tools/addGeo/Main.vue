@@ -114,7 +114,7 @@
                         }).then(res => {
                             if (res.code == 200 && res.data.lat) {
                                 const { lat, lng } = res.data
-                                console.log('success...', lat, lng)
+                                // console.log('success...', lat, lng)
                                 that.writeGeoDataIntoImg(imgObj, { lat, lng, height: geoData.height }, index)
                             } else {
                                 console.log('request rectify error....', res)
@@ -177,6 +177,10 @@
                 } else {
                     that.doHideProgressBar()
                     that.currStatus = 1
+                    setTimeout(() => {
+                        that.$store.dispatch(types.SWITCH_MESSAGE_TIP_SYNC, { show: true, tip: '图片处理完毕！' })
+                        that.$electron.shell.openExternal(that.distImagePath)
+                    }, 500)
                 }
             },
             // 检查1,2,3步骤是否执行
@@ -213,7 +217,7 @@
             doSelectOriginImagePath () {
                 const that = this
                 const objFiles = that.$refs.originImagePathObj.files
-                if (objFiles.length == 1) {
+                if (objFiles && objFiles.length == 1) {
                     that.originImagePath = objFiles[0].path
                     that.images = []
                     that.$store.dispatch(types.SWITCH_LOADING_SYNC, true)
@@ -277,7 +281,7 @@
             doSelectGeoTextFile () {
                 const that = this
                 const files = that.$refs.geoTextFileObj.files
-                if (files.length == 1) {
+                if (files && files.length == 1) {
                     that.geoTextFilePath = files[0].path
                     that.geoDataList = []
                     // 读取此文件
@@ -296,7 +300,7 @@
             doSelectDistImagePath () {
                 const that = this
                 const files = that.$refs.distImagePathObj.files
-                if (files.length == 1) {
+                if (files && files.length == 1) {
                     that.distImagePath = files[0].path + '\\' + formatTime(new Date(), 'yyyyMMddhhmmss') + '\\'
                 }
             },
@@ -329,6 +333,10 @@
                 that.originImagePath = ''
                 that.geoTextFilePath = ''
                 that.distImagePath = ''
+                const refs = that.$refs
+                refs.originImagePathObj.value = ''
+                refs.geoTextFileObj.value = ''
+                refs.distImagePathObj.value = ''
             }
         }
     }
