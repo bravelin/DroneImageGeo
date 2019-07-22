@@ -14,6 +14,8 @@
 
     const fs = require('fs')
     const path = require('path')
+    const originStr = 'http://maps.google.com/maps/api/js?sensor=false'
+    const distStr = 'http://maps.google.cn/maps/api/js?key=AIzaSyBS1p0Z2ibsrbtNsH6Co7ytQgL_ObYfs_E&libraries=places&language=zh-CN'
     export default {
         name: 'ToolsPreviewTiles',
         data () {
@@ -37,7 +39,7 @@
                 const objFiles = that.$refs.tilesPathObj.files
                 if (objFiles && objFiles.length == 1) {
                     that.tilesMapFilePath = objFiles[0].path
-                    console.log('tilesMapFilePath...', that.tilesMapFilePath)
+                    // console.log('tilesMapFilePath...', that.tilesMapFilePath)
                     fs.readdir(that.tilesMapFilePath, (err, files) => {
                         if (err) {
                             console.log('doSelectTilesPath error...')
@@ -48,8 +50,15 @@
                                 fileName = files[i]
                                 if (/.html/.test(fileName)) {
                                     tag = true
-                                    console.log('fileName...', fileName)
-                                    that.indexPath = path.join(that.tilesMapFilePath, fileName)
+                                    const indexPath = path.join(that.tilesMapFilePath, fileName)
+                                    fs.readFile(indexPath, 'utf8', (err, file) => {
+                                        console.log('err...', err)
+                                        const result = file.replace(originStr, distStr)
+                                        fs.writeFile(indexPath, result, 'utf8', (err) => {
+                                            if (err) return console.log(err)
+                                            that.indexPath = indexPath
+                                        })
+                                    })
                                     break
                                 }
                             }
