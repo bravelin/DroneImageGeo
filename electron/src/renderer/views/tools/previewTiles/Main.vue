@@ -48,7 +48,7 @@
                             let tag = false
                             for (let i = 0; i < files.length; i++) {
                                 fileName = files[i]
-                                if (/.html/.test(fileName)) {
+                                if (/(.html|.htm)/.test(fileName)) {
                                     tag = true
                                     const indexPath = path.join(that.tilesMapFilePath, fileName)
                                     fs.readFile(indexPath, 'utf8', (err, file) => {
