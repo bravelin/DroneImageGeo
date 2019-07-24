@@ -23,5 +23,8 @@ module.exports = app => {
     router.get('/api/geo/rectify', controller.geo.rectify); // 获取纠偏之后的经纬度
 
     router.get('/api/tasks', controller.task.index); // 分页查询任务列表数据
+    router.post('/api/tasks', controller.task.create); // 创建任务
+    router.delete('/api/tasks/:id', controller.task.destroy); // 删除任务
+
     router.get('/*', controller.sys.index); // 返回页面
 };

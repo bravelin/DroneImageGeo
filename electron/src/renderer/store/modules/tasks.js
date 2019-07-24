@@ -5,7 +5,11 @@ const state = {
     dataList: [],
     currentPage: 1,
     currentPageSize: 15,
-    totalPage: 0
+    totalPage: 0,
+    addDialogVisible: false,
+
+    delConfirmVisible: false,
+    delConfirmTaskId: ''
 }
 
 export default {

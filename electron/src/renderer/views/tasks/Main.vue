@@ -7,12 +7,12 @@
                 <div class="search-button tool-button" @click="doSearch()"><i class="iconfont">&#xe782;</i>搜索</div>
             </div>
             <div class="right">
-                <div class="tool-button" @click="doAddTask()"><i class="iconfont">&#xe600;</i>添加账号</div>
+                <div class="tool-button" @click="doAddTask()"><i class="iconfont">&#xe600;</i>新增任务</div>
             </div>
         </div>
         <div class="data-table">
             <ul>
-                <li>序号</li>
+                <li>ID</li>
                 <li>创建时间</li>
                 <li>创建人</li>
                 <li>状态</li>
@@ -25,7 +25,7 @@
             </ul>
             <template v-if="dataList.length">
                 <ul v-for="item in dataList" :key="item.id">
-                    <li>{{ item.index }}</li>
+                    <li>{{ item.id }}</li>
                     <li>{{ item.createdAt }}</li>
                     <li>{{ item.creatorName }}</li>
                     <li>{{ item.status }}</li>
@@ -35,23 +35,30 @@
                     <li>{{ item.tilesAmount }}</li>
                     <li>{{ item.remark }}</li>
                     <li>
-                        <div class="dialog-table-button" v-if="item.role!='0'" @click="doDel(item)">删除</div>
+                        <div class="dialog-table-button" v-if="item.status=='0'" @click="doDel(item)">删除</div>
+                        <div class="dialog-table-button" v-if="item.status=='0'" @click="doUploadOriginImage(item)">上传原始图</div>
                     </li>
                 </ul>
             </template>
             <div v-else class="no-data-list">未能查询到数据！</div>
             <Pagination :total="totalPage" :curr="currPage" v-show="dataList.length"></Pagination>
         </div>
+        <AddDialog @refresh="doSearch()"></AddDialog>
+        <DelConfirm @refresh="doSearch()"></DelConfirm>
     </div>
 </template>
 <script>
     import types from '@/store/constants/types'
     import ns from '@/store/constants/ns'
     import api from '@/lib/api'
+    import AddDialog from './AddDialog'
+    import DelConfirm from './DelConfirm'
 
     export default {
         name: 'Tasks',
-        components: {},
+        components: {
+            AddDialog, DelConfirm
+        },
         computed: {
             dataList () {
                 return this.$store.state[ns.TASKS].dataList
@@ -80,7 +87,7 @@
                 this.doQuery({ page: 1, pageSize: 15, key: this.keyWord.trim() })
             },
             // 数据列表查询
-            doSearch ({ page, pageSize, key }) {
+            doQuery ({ page, pageSize, key }) {
                 const that = this
                 const store = that.$store
                 page = page || 1
@@ -102,7 +109,19 @@
                     }
                 })
             },
+            // 创建任务
             doAddTask () {
+                this.$store.dispatch(ns.TASKS + '/' + types.TASKS_SWITCH_ADD_DIALOG_VISIBLE_SYNC, true)
+            },
+            // 删除任务
+            doDel ({ id }) {
+                this.$store.dispatch(ns.TASKS + '/' + types.TASKS_SWITCH_DEL_CONFIRM_VISIBLE_SYNC, {
+                    id, isShow: true
+                })
+            },
+            // 上传原始航拍图
+            doUploadOriginImage (task) {
+
             }
         }
     }

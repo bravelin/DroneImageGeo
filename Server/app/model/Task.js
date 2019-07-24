@@ -3,7 +3,7 @@ module.exports = app => {
     const { STRING, DATE, INTEGER, DOUBLE } = app.Sequelize
     const Task = db.defineModel(app, 'task', {
         creator: {
-            type: STRING,
+            type: INTEGER,
             allowNull: false,
         },
         status: {

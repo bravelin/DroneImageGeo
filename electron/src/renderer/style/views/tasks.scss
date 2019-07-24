@@ -1,3 +1,58 @@
 .task-page{
+    .data-table{
+        >ul{
+            >li{
+                // border-right: 1px solid #f00;
+                &:nth-of-type(1){
+                    flex: none;
+                    width: 70px;
+                }
+                &:nth-of-type(10){
+                    flex: none;
+                    width: 200px;
+                    display: flex;
+                    justify-content: space-around;
+                    padding: 0 12px;
+                    // border: 1px solid #f00;
+                }
+                &:nth-of-type(6),&:nth-of-type(7),&:nth-of-type(8){
+                    flex: none;
+                    width: 120px;
+                    // border: 1px solid #f00;
+                }
+            }
+        }
+    }
 
+    .add-task-dialog{
+        .input-wrap{
+            position: relative;
+            margin-top: 10px;
+            input{
+                width: 100%;
+                padding: 0 10px 0 112px;
+                border: 1px solid #74c3e3;
+                border-radius: 4px;
+                color: #fff;
+                font-size: 14px;
+                background: rgba(#131e22, 0.6);
+            }
+            input:disabled{
+                opacity: 0.4;
+                background: rgba(#cccccc, 0.1);
+                border-color: rgba(#74c3e3, 0.3);
+                cursor: not-allowed;
+            }
+            label{
+                position: absolute;
+                left: 10px;
+                width: 102px;
+                // border: 1px solid #f00;
+                text-align: right;
+                letter-spacing: 1px;
+                color: #74c3e3;
+                font-size: 14px;
+            }
+        }
+    }
 }

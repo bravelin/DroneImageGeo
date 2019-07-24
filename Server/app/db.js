@@ -1,10 +1,5 @@
-const uuidv1 = require('uuid/v1')
-function generateUUID() {
-    return uuidv1().replace(/-/g, '')
-}
-
 function defineModel(app, name, attributes) {
-    const { UUID } = app.Sequelize
+    const { INTEGER } = app.Sequelize
     let attrs = {}
     for (let key in attributes) {
         let value = attributes[key]
@@ -21,9 +16,8 @@ function defineModel(app, name, attributes) {
 
     if (!attrs.id) {
         attrs.id = {
-            type: UUID,
-            primaryKey: true,
-            defaultValue: () => { return generateUUID() }
+            type: INTEGER,
+            primaryKey: true
         }
     }
 

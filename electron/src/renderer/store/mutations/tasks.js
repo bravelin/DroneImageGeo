@@ -14,7 +14,7 @@ export default {
                 creator: item.creator,
                 creatorName: item.creatorName,
                 status: item.status,
-                aerialDate: formatTime(new Date(item.aerialDate), 'yyyy-MM-dd'),
+                aerialDate: item.aerialDate ? formatTime(new Date(item.aerialDate), 'yyyy-MM-dd') : '-',
                 imgTotalSize: item.imgTotalSize ? fromatFileSize(item.imgTotalSize) : '-',
                 imgTotalAmount: item.imgTotalAmount || '-',
                 tilesAmount: item.tilesAmount || '-',
@@ -27,5 +27,22 @@ export default {
                 createdAt: formatTime(new Date(item.createdAt))
             }
         })
+    },
+    // 控制新增任务弹窗是否显示
+    [types.TASKS_SWITCH_ADD_DIALOG_VISIBLE] (state, isShow) {
+        if (state.addDialogVisible == isShow) {
+            state.addDialogVisible = !state.addDialogVisible
+        } else {
+            state.addDialogVisible = isShow
+        }
+    },
+    // 控制删除任务的确认弹窗是否显示
+    [types.TASKS_SWITCH_DEL_CONFIRM_VISIBLE] (state, { id, isShow }) {
+        if (state.delConfirmVisible == isShow) {
+            state.delConfirmVisible = !state.delConfirmVisible
+        } else {
+            state.delConfirmVisible = isShow
+            state.delConfirmTaskId = id
+        }
     }
 }
