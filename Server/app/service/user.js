@@ -6,16 +6,16 @@ class UserService extends Service {
     async queryAll ({ searchKey, page, pageSize }) {
         const { ctx, app } = this;
         const Sequelize = app.Sequelize;
-        let countSql = 'select count(*) as count from user '; // 计算总数的sql
+        let countSql = 'select count(*) as count from tool_user '; // 计算总数的sql
         let dataSql = ''; // 查询数据的sql
-        let sql = `select id, loginName, realName, lastLoginTime, role, createdAt from user `;
+        let sql = `select id, login_name as loginName, real_name as realName, last_login_time as lastLoginTime, role, created_at as createdAt from tool_user `;
         let conditionSql = `where status !='0' `
         if (searchKey) {
-            conditionSql += `and (loginName like '%${searchKey}%' or realName like '%${searchKey}%') `
+            conditionSql += `and (login_name like '%${searchKey}%' or real_name like '%${searchKey}%') `
         }
         countSql += conditionSql + ';';
         console.log('countSql...', countSql);
-        conditionSql += `order by createdAt desc limit ${(page - 1) * pageSize}, ${pageSize}`;
+        conditionSql += `order by created_at desc limit ${(page - 1) * pageSize}, ${pageSize}`;
         dataSql = sql + conditionSql + ';';
         console.log('dataSql...', dataSql);
 

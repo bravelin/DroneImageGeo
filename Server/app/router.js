@@ -21,5 +21,7 @@ module.exports = app => {
     router.delete('/api/users/:id', controller.user.destroy); // 删除账号
 
     router.get('/api/geo/rectify', controller.geo.rectify); // 获取纠偏之后的经纬度
+
+    router.get('/api/tasks', controller.task.index); // 分页查询任务列表数据
     router.get('/*', controller.sys.index); // 返回页面
 };

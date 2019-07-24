@@ -29,8 +29,8 @@ function defineModel(app, name, attributes) {
 
     return app.model.define(name, attrs, {
         freezeTableName: true,
-        createdAt: 'createdAt',
-        updatedAt: 'updatedAt'
+        createdAt: 'created_at',
+        updatedAt: 'updated_at'
     })
 }
 module.exports = { defineModel }

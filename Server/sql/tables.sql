@@ -12,33 +12,41 @@ create table offset (
 );
 
 /*** 管理人员表 ***/
-drop table if exists user;
-create table user (
+drop table if exists tool_user;
+create table tool_user (
     id char(32),
-    loginName varchar(50) not null,
-    loginPassword varchar(200) not null,
-    realName varchar(50) not null,
-    lastLoginTime datetime,
-    role char(1) not null, /* 0-超级管理员 1-管理员 */
-    status char(1) not null, /* 0-账号已删除 1-正常 */
-    createdAt datetime,
-    updatedAt datetime,
+    login_name varchar(50) not null,
+    login_password varchar(200) not null,
+    real_name varchar(50) not null,
+    last_login_time datetime,
+    role char(1) not null, /* 角色， 0-超级管理员 1-管理员 */
+    status char(1) not null, /* 账号状态， 0-账号已删除 1-正常 */
+    created_at datetime,
+    updated_at datetime,
     primary key(id)
 );
 
-/*** 增加超级管理员账号 ***/
-insert into user (id, loginName, loginPassword, realName, role, status, createdAt)
-values ('6c84fb9012c411e1840d7b25c5ee775a', 'SuperAdmin', '05471d5926bb87ec3431d9797e5140d1fc1e0d2b', '超级管理员', '0', '1', '2019-07-15 08:59:19');
+/*** 增加超级管理员账号 yfgeo@123***/
+insert into tool_user (id, login_name, login_password, real_name, role, status, created_at)
+values ('6c84fb9012c411e1840d7b25c5ee775a', 'SuperAdmin', 'e3bc93a61c3709ecf848df6d38f7ec97ec8d90d9', '超级管理员', '0', '1', '2019-07-15 08:59:19');
 
 /*** 任务表 ***/
 drop table if exists task;
-create table user (
+create table task (
     id char(32),
     creator char(32) not null, /* 任务创建者 */
-    status char(1) not null, /* 0-初始状态，待处理，此时已上传原图  1-正射图，已生成谷歌瓦片图，tiles字段存放了瓦片图目录，待AI程序处理  2-AI程序处理中状态  3-AI程序处理完状态  4-已删除临时瓦片图目录状态 */
-    tiles varchar(500), /* 瓦片图临时目录 */
+    status char(1) not null, /* 0-初始状态，待处理，此时已上传原图  1-正射图，已生成谷歌瓦片图，tilesPath字段存放了瓦片图目录，待AI程序处理   2-AI程序处理中状态  3-AI程序处理完状态  4-已删除临时瓦片图目录状态  5-删除状态 */
+    aerial_date datetime, /* 航测日期 YYYY-MM-DD 可以从图片的拍摄日期字段取值 */
+    img_total_size int default 0, /* 图片总体大小 */
+    img_total_amount int default 0, /* 图片总体数量 */
+    tiles_amount int default 0, /* 瓦片数目 */
+    tiles_path varchar(500), /* 瓦片图临时目录 */
+    min_lat double, /* 区域边距minLat */
+    min_lng double, /* 区域边距minLng */
+    max_lat double, /* 区域边距maxLat */
+    max_lng double, /* 区域边距maxLng */
     remark varchar(500), /* 备注 */
-    createdAt datetime,
-    updatedAt datetime,
+    created_at datetime,
+    updated_at datetime,
     primary key(id)
 );
