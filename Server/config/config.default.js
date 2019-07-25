@@ -43,6 +43,11 @@ module.exports = appInfo => {
         database: 'gis'
     };
 
+    config.multipart = {
+        fields: 50, // 表单上传字段限制的个数
+        fileSize: '100mb' // 文件上传的大小限制
+    };
+
     config.io = {
         namespace: {
             '/': {

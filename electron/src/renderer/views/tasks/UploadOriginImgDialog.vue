@@ -64,7 +64,17 @@
             [prop] (newVal) {
                 if (newVal) {
                     const that = this
-                    that.list = []
+                    that.images = []
+                    that.originImagePath = ''
+                    that.currAddAmount = 0
+                    that.showProgressBar = false
+                    that.totalSize = 0
+                    that.totalSizeData = 0
+                    that.aerialDate = ''
+                    const fileObj = that.$refs.originImagePathObj
+                    if (fileObj) {
+                        fileObj.value = ''
+                    }
                 }
             }
         },

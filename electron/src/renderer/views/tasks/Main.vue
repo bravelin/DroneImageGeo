@@ -82,9 +82,6 @@
             const store = that.$store
             store.dispatch(types.SWITCH_LOADING_SYNC, false)
             that.doQuery({})
-            setTimeout(() => {
-                that.doUploadOriginImage(2)
-            }, 2000)
         },
         methods: {
             // 点击搜索按钮
