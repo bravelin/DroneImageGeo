@@ -11,5 +11,9 @@ export default {
     // 控制删除任务的确认弹窗是否显示
     [types.TASKS_SWITCH_DEL_CONFIRM_VISIBLE_SYNC] ({ commit }, payload) {
         commit(types.TASKS_SWITCH_DEL_CONFIRM_VISIBLE, payload)
+    },
+    // 控制上传原始图的弹窗是否显示
+    [types.TASKS_SWITCH_UPLOAD_ORIGIN_IMG_VISIBLE_SYNC] ({ commit }, payload) {
+        commit(types.TASKS_SWITCH_UPLOAD_ORIGIN_IMG_VISIBLE, payload)
     }
 }

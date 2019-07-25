@@ -9,5 +9,6 @@ export default {
     GET_RECTIFY_LATLNG: '/api/geo/rectify', // 获取谷歌地图纠偏之后的经纬度
     GET_TASKS: '/api/tasks', // 获取任务列表
     ADD_TASK: '/api/tasks', // 创建任务
-    DEL_TASK: '/api/tasks/' // 删除任务
+    DEL_TASK: '/api/tasks/', // 删除任务
+    UPLOAD_ORIGIN_IMG: '/api/upload/origin/img' // 单个上传预处理之后的航测图片
 }

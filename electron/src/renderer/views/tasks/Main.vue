@@ -3,7 +3,7 @@
     <div class="page task-page">
         <div class="panel-tools">
             <div class="left">
-                <input type="text" ref="key" v-model="keyWord" placeholder="输入关键字"  maxlength="50"/>
+                <input type="text" ref="key" v-model="keyWord" placeholder="输入关键字" maxlength="50"/>
                 <div class="search-button tool-button" @click="doSearch()"><i class="iconfont">&#xe782;</i>搜索</div>
             </div>
             <div class="right">
@@ -45,6 +45,7 @@
         </div>
         <AddDialog @refresh="doSearch()"></AddDialog>
         <DelConfirm @refresh="doSearch()"></DelConfirm>
+        <UploadOriginImgDialog></UploadOriginImgDialog>
     </div>
 </template>
 <script>
@@ -53,11 +54,12 @@
     import api from '@/lib/api'
     import AddDialog from './AddDialog'
     import DelConfirm from './DelConfirm'
+    import UploadOriginImgDialog from './UploadOriginImgDialog'
 
     export default {
         name: 'Tasks',
         components: {
-            AddDialog, DelConfirm
+            AddDialog, DelConfirm, UploadOriginImgDialog
         },
         computed: {
             dataList () {
@@ -80,6 +82,9 @@
             const store = that.$store
             store.dispatch(types.SWITCH_LOADING_SYNC, false)
             that.doQuery({})
+            setTimeout(() => {
+                that.doUploadOriginImage(2)
+            }, 2000)
         },
         methods: {
             // 点击搜索按钮
@@ -120,8 +125,10 @@
                 })
             },
             // 上传原始航拍图
-            doUploadOriginImage (task) {
-
+            doUploadOriginImage ({ id }) {
+                this.$store.dispatch(ns.TASKS + '/' + types.TASKS_SWITCH_UPLOAD_ORIGIN_IMG_VISIBLE_SYNC, {
+                    id, isShow: true
+                })
             }
         }
     }

@@ -14,13 +14,10 @@ module.exports = appInfo => {
 
     // use for cookie sign key, should change to your own and keep security
     config.keys = appInfo.name + '_1557222528762_2699';
-
-    config.uploadDir = 'd:\\tempUpload'
-    config.distDir = 'd:\\DroneImageDist\\'
+    config.uploadDir = 'D:\\tempUpload';
 
     // add your user config here
-    const userConfig = {
-    };
+    const userConfig = {};
 
     config.jwt = {
         secret: 'yufengtek@YFZN@123'
@@ -56,9 +53,5 @@ module.exports = appInfo => {
     };
 
     config.middleware = ['token'];
-
-    return {
-        ...config,
-        ...userConfig,
-    };
+    return { ...config, ...userConfig };
 };

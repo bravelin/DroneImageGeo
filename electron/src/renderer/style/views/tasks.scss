@@ -1,5 +1,5 @@
 .task-page{
-    .data-table{
+    >div.data-table{
         >ul{
             >li{
                 // border-right: 1px solid #f00;
@@ -54,5 +54,70 @@
                 font-size: 14px;
             }
         }
+    }
+
+    .upload-image-dialog{
+        .panel-tools{
+            padding-top: 10px;
+            margin-bottom: 8px;
+            border-bottom-color: rgba(#74c0e3, 0.15);
+            div.tool-button{
+                background: darken(#1d2f36, 2%);
+                &:hover{
+                    background: darken(#1d2f36, 5%);
+                }
+            }
+            .left{
+                flex: 2;
+                align-items: center;
+                >span{
+                    margin-left: 18px;
+                }
+            }
+        }
+        >.dialog-content{
+            width: 90%;
+            max-width: 1400px;
+        }
+        .null-list{
+            border: 1px dotted rgba(#74c0e3, 0.4);
+            border-radius: 4px;
+            height: 200px;
+            margin-bottom: 10px;
+        }
+        .list-wrap{
+            max-height: 600px;
+            overflow: auto;
+            border: 1px solid rgba(#74c0e3, 0.1);
+            border-radius: 4px;
+            .data-table{
+                margin-top: 0;
+                margin-bottom: 0;
+                ul>li{
+                    &:nth-of-type(1){
+                        flex: 1;
+                    }
+                    &:nth-of-type(3),&:nth-of-type(4),&:nth-of-type(7),&:nth-of-type(8){
+                        flex: none;
+                        width: 150px;
+                    }
+                    &:nth-of-type(2){
+                        flex: none;
+                        width: 180px;
+                    }
+                    &:nth-of-type(5), &:nth-of-type(6){
+                        flex: none;
+                        width: 200px;
+                    }
+                }
+            }
+        }
+    }
+
+    li.status-1{
+        color: #ff9999;
+    }
+    li.status-2{
+        color: #43A047;
     }
 }

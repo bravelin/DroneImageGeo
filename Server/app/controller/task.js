@@ -12,7 +12,7 @@ class TaskController extends Controller {
         const pageSize = (query.pageSize || 15) - 0;
         const searchKey = query.key ? decodeURIComponent(query.key) : '';
         const status = query.status != undefined ? query.status : '';
-        let uid = ctx.request.header.uid
+        let uid = ctx.request.header.uid;
         const isSuperAdministrator = await service.user.isSuperAdministrator(uid)
         if (isSuperAdministrator) {
             uid = ''
@@ -39,9 +39,16 @@ class TaskController extends Controller {
         const helper = ctx.helper;
         const taskId = querys.id;
         if (!taskId || !(taskId + '').trim()) {
-            return helper.success(ctx, '', '接口缺少参数！', 501)
+            return helper.success(ctx, '', '接口缺少参数！', 501);
         }
         const res = await service.task.del(taskId);
+        helper.success(ctx, '', res.message, res.code);
+    }
+    // 上传单个图片文件
+    async uploadOriginImg () {
+        const { ctx, service } = this;
+        const helper = ctx.helper;
+        const res = await service.task.uploadOriginImg();
         helper.success(ctx, '', res.message, res.code);
     }
 }

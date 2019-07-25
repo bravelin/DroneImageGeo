@@ -79,7 +79,7 @@ export function fromatFileSize (size) {
     if (mb < 1024) {
         return mb.toFixed(1) + 'MB'
     }
-    return (mb / 1024) + 'GB'
+    return (mb / 1024).toFixed(2) + 'GB'
 }
 
 // 将经纬度小数形式转成度分秒

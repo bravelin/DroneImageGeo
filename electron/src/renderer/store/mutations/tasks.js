@@ -44,5 +44,14 @@ export default {
             state.delConfirmVisible = isShow
             state.delConfirmTaskId = id
         }
+    },
+    // 控制上传原始图的弹窗是否显示
+    [types.TASKS_SWITCH_UPLOAD_ORIGIN_IMG_VISIBLE] (state, { id, isShow }) {
+        if (state.uploadOriginImgVisible == isShow) {
+            state.uploadOriginImgVisible = !state.uploadOriginImgVisible
+        } else {
+            state.uploadOriginImgVisible = isShow
+            state.uploadOriginImgVisibleTaskId = id
+        }
     }
 }

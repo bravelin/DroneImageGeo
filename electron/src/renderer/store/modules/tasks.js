@@ -9,7 +9,10 @@ const state = {
     addDialogVisible: false,
 
     delConfirmVisible: false,
-    delConfirmTaskId: ''
+    delConfirmTaskId: '',
+
+    uploadOriginImgVisible: false,
+    uploadOriginImgVisibleTaskId: ''
 }
 
 export default {

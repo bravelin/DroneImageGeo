@@ -2,7 +2,7 @@
 <template>
     <div class="progress-bar dialog">
         <div class="dialog-content" :class="{ active: contentActive }">
-            <h3>请稍候，正在处理...</h3>
+            <h3>{{ tip }}...</h3>
             <div class="bar-content">
                 <div><div :style="{ width: progress + '%' }"></div></div>
                 <div>{{ curr }}/{{ total }}</div>
@@ -14,6 +14,10 @@
     export default {
         name: 'ProgressBar',
         props: {
+            tip: {
+                type: String,
+                default: '请稍候，正在处理'
+            },
             show: {
                 type: Boolean,
                 default: false
