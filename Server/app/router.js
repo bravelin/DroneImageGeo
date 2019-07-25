@@ -25,7 +25,8 @@ module.exports = app => {
     router.get('/api/tasks', controller.task.index); // 分页查询任务列表数据
     router.post('/api/tasks', controller.task.create); // 创建任务
     router.delete('/api/tasks/:id', controller.task.destroy); // 删除任务
-    router.post('/api/upload/origin/img', controller.task.uploadOriginImg); // 单个上传航测原图
+    router.post('/api/tasks/upload/origin/img', controller.task.uploadOriginImg); // 单个上传航测原图
+    router.post('/api/tasks/update/origin/img', controller.task.updateOriginImg); // 补充航测图信息、图片总数量、大小、航测日期、状态更改为1
 
     router.get('/*', controller.sys.index); // 返回页面
 };

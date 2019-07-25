@@ -75,7 +75,9 @@
                 currAddAmount: 0, // 当前已处理的数目
                 showProgressBar: false, // 是否显示进度条
                 statusText: ['等待上传', '上传中...', '上传完'],
-                totalSize: 0
+                totalSize: 0,
+                totalSizeData: 0,
+                aerialDate: ''
             }
         },
         methods: {
@@ -90,6 +92,7 @@
             // 按顺序执行处理
             doRun (index) {
                 const that = this
+                const store = that.$store
                 if (index < that.images.length) {
                     const formData = new FormData()
                     const imgObj = that.images[index]
@@ -112,7 +115,31 @@
                         }
                     })
                 } else {
-                    console.log('upload all success!')
+                    that.$ajax({
+                        method: 'post',
+                        url: api.UPDATE_ORIGIN_IMG,
+                        data: {
+                            id: that.taskId,
+                            aerialDate: that.aerialDate,
+                            imgTotalSize: that.totalSizeData,
+                            imgTotalAmount: that.images.length
+                        }
+                    }).then(res => {
+                        if (res.code == 200) {
+                            that.doHideProgressBar()
+                            setTimeout(() => {
+                                store.dispatch(types.SWITCH_MESSAGE_TIP_SYNC, { show: true, tip: '图片上传完毕！' })
+                                setTimeout(() => {
+                                    that.doDialogClose()
+                                    that.$emit('refresh')
+                                }, 200)
+                            }, 300)
+                        } else {
+                            setTimeout(() => {
+                                store.dispatch(types.SWITCH_MESSAGE_TIP_SYNC, { show: true, tip: res.message || '图片上传出错！' })
+                            }, 300)
+                        }
+                    })
                 }
             },
             // 校验
@@ -175,6 +202,9 @@
                                         totalSize += fileSize
                                         imgObj.photoTime = formatPhotoTime(exifObj['Exif']['36867'])
                                         imgObj.imgSize = exifObj['Exif']['40962'] + '*' + exifObj['Exif']['40963']
+                                        if (!that.aerialDate) {
+                                            that.aerialDate = imgObj.photoTime.split(' ')[0] + ' 00:00:00'
+                                        }
                                         if (geoData[0] && geoData[2]) {
                                             latArr = geoData['2']
                                             lngArr = geoData['4']
@@ -194,6 +224,7 @@
                                 if (!exitGps) { // 图片不存在经纬度信息
                                     that.$store.dispatch(types.SWITCH_MESSAGE_TIP_SYNC, { show: true, tip: '图片不存在经纬度信息！' })
                                 }
+                                that.totalSizeData = totalSize
                                 that.totalSize = fromatFileSize(totalSize)
                                 that.$store.dispatch(types.SWITCH_LOADING_SYNC, false)
                             }

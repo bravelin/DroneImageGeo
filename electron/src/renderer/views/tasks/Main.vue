@@ -45,7 +45,7 @@
         </div>
         <AddDialog @refresh="doSearch()"></AddDialog>
         <DelConfirm @refresh="doSearch()"></DelConfirm>
-        <UploadOriginImgDialog></UploadOriginImgDialog>
+        <UploadOriginImgDialog @refresh="doSearch()"></UploadOriginImgDialog>
     </div>
 </template>
 <script>

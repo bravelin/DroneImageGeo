@@ -72,6 +72,16 @@ class TaskService extends Service {
         await task.update({ status: '6' });
         return { message: '任务删除成功！', code: 200 };
     }
+    // 更改任务状态为1
+    async updateOriginImg ({ id, aerialDate, imgTotalSize, imgTotalAmount }) {
+        const { ctx } = this;
+        const task = await ctx.model.Task.findById(id);
+        if (!task) {
+            return { message: '未能查询到任务！', code: 201 };
+        }
+        await task.update({ status: '1', imgTotalSize: imgTotalSize - 0, imgTotalAmount: imgTotalAmount - 0, aerialDate: new Date(aerialDate) });
+        return { message: '更新成功！', code: 200 };
+    }
     // 上传图片
     async uploadOriginImg () {
         const { ctx, app } = this;

@@ -32,6 +32,31 @@ class TaskController extends Controller {
         const res = await service.task.create(ctx.request.header.uid, params.remark);
         helper.success(ctx, '', res.message, res.code);
     }
+    // 任务状态更改为1
+    async updateOriginImg () {
+        const { ctx, service } = this;
+        const params = ctx.request.body;
+        const helper = ctx.helper;
+        // 校验参数
+        const id = params.id;
+        if (!id || !(id + '').trim()) {
+            return helper.success(ctx, '', '任务ID不能为空！', 501);
+        }
+        const aerialDate = params.aerialDate;
+        if (!aerialDate || !(aerialDate + '').trim()) {
+            return helper.success(ctx, '', '航测日期不能为空！', 501);
+        }
+        const imgTotalSize = params.imgTotalSize;
+        if (!imgTotalSize || !(imgTotalSize + '').trim()) {
+            return helper.success(ctx, '', '图片总大小不能为空！', 501);
+        }
+        const imgTotalAmount = params.imgTotalAmount;
+        if (!imgTotalAmount || !(imgTotalAmount + '').trim()) {
+            return helper.success(ctx, '', '图片总数量不能为空！', 501);
+        }
+        const res = await service.task.updateOriginImg({ id, aerialDate, imgTotalSize, imgTotalAmount });
+        helper.success(ctx, '', res.message, res.code);
+    }
     // 删除任务
     async destroy () {
         const { ctx, service } = this;
