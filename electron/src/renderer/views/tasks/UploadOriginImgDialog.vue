@@ -27,7 +27,7 @@
                     <li>{{ img.fileName }}</li>
                     <li>{{ img.photoTime }}</li>
                     <li>{{ img.fileSize }}</li>
-                    <li>{{ img.imgSize }}</li>
+                    <li>{{ img.width }} * {{ img.height }}</li>
                     <li>{{ img.lng }}</li>
                     <li>{{ img.lat }}</li>
                     <li>{{ img.h }}</li>
@@ -120,7 +120,9 @@
                             lat: imgObj.lat,
                             alt: imgObj.h,
                             photo: encodeURIComponent(imgObj.photoTime),
-                            size: imgObj.fileSizeData
+                            size: imgObj.fileSizeData,
+                            w: imgObj.width,
+                            h: imgObj.height
                         },
                         data: formData
                     }).then(res => {
@@ -220,7 +222,8 @@
                                         imgObj.fileSize = fromatFileSize(fileSize)
                                         totalSize += fileSize
                                         imgObj.photoTime = formatPhotoTime(exifObj['Exif']['36867'])
-                                        imgObj.imgSize = exifObj['Exif']['40962'] + '*' + exifObj['Exif']['40963']
+                                        imgObj.width = exifObj['Exif']['40962']
+                                        imgObj.height = exifObj['Exif']['40963']
                                         if (!that.aerialDate) {
                                             that.aerialDate = imgObj.photoTime.split(' ')[0] + ' 00:00:00'
                                         }

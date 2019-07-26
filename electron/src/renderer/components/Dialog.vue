@@ -6,6 +6,7 @@
             <div class="close-button" @click="doClose()">&times;</div>
             <slot></slot>
         </div>
+        <slot name="preview"></slot>    
     </div>
 </template>
 <script>

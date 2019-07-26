@@ -56,7 +56,7 @@
         }
     }
 
-    .upload-image-dialog{
+    .upload-image-dialog, .view-image-dialog{
         .panel-tools{
             padding-top: 10px;
             margin-bottom: 8px;
@@ -93,6 +93,13 @@
             .data-table{
                 margin-top: 0;
                 margin-bottom: 0;
+            }
+        }
+    }
+
+    .upload-image-dialog{
+        .list-wrap{
+            .data-table{
                 ul>li{
                     &:nth-of-type(1){
                         flex: 1;
@@ -108,6 +115,33 @@
                     &:nth-of-type(5), &:nth-of-type(6){
                         flex: none;
                         width: 200px;
+                    }
+                }
+            }
+        }
+    }
+
+    .view-image-dialog{
+        .list-wrap{
+            .data-table{
+                ul>li{
+                    a.link{
+                        cursor: pointer;
+                        color: #43A047;
+                        &:hover{
+                            color: #ff9999;
+                        }
+                    }
+                    &:nth-of-type(2),&:nth-of-type(5),&:nth-of-type(6){
+                        flex: none;
+                        width: 190px;
+                    }
+                    &:nth-of-type(3),&:nth-of-type(4),&:nth-of-type(7),&:nth-of-type(8){
+                        flex: none;
+                        width: 140px;
+                    }
+                    &:nth-of-type(1){
+                        flex: 1;
                     }
                 }
             }
