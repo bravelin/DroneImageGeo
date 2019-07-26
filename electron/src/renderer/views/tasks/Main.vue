@@ -15,7 +15,7 @@
                 <li>ID</li>
                 <li>创建时间</li>
                 <li>创建人</li>
-                <li>状态</li>
+                <li>状态标志</li>
                 <li>航测时间</li>
                 <li>数据量大小</li>
                 <li>图片总数量</li>
@@ -38,6 +38,7 @@
                         <div class="dialog-table-button" v-if="item.status=='0'" @click="doDel(item)">删除</div>
                         <div class="dialog-table-button" v-if="item.status=='0'" @click="doUploadOriginImage(item)">上传原始图</div>
                         <div class="dialog-table-button" v-if="item.status=='1'" @click="doViewOriginImage(item)">查看原始图</div>
+                        <div class="dialog-table-button" v-if="item.status=='1'" @click="doUploadTilesImage(item)">上传瓦片图</div>
                     </li>
                 </ul>
             </template>
@@ -47,6 +48,7 @@
         <AddDialog @refresh="doSearch()"></AddDialog>
         <DelConfirm @refresh="doSearch()"></DelConfirm>
         <UploadOriginImgDialog @refresh="doSearch()"></UploadOriginImgDialog>
+        <UploadTilesImgDialog @refresh="doSearch()"></UploadTilesImgDialog>
         <ViewOriginImgDialog @refresh="doSearch()"></ViewOriginImgDialog>
     </div>
 </template>
@@ -57,12 +59,13 @@
     import AddDialog from './AddDialog'
     import DelConfirm from './DelConfirm'
     import UploadOriginImgDialog from './UploadOriginImgDialog'
+    import UploadTilesImgDialog from './UploadTilesImgDialog'
     import ViewOriginImgDialog from './ViewOriginImgDialog'
 
     export default {
         name: 'Tasks',
         components: {
-            AddDialog, DelConfirm, UploadOriginImgDialog, ViewOriginImgDialog
+            AddDialog, DelConfirm, UploadOriginImgDialog, ViewOriginImgDialog, UploadTilesImgDialog
         },
         computed: {
             dataList () {
@@ -127,6 +130,12 @@
             // 上传原始航拍图
             doUploadOriginImage ({ id }) {
                 this.$store.dispatch(ns.TASKS + '/' + types.TASKS_SWITCH_UPLOAD_ORIGIN_IMG_VISIBLE_SYNC, {
+                    id, isShow: true
+                })
+            },
+            // 上传瓦片图
+            doUploadTilesImage ({ id }) {
+                this.$store.dispatch(ns.TASKS + '/' + types.TASKS_SWITCH_UPLOAD_TILES_IMG_VISIBLE_SYNC, {
                     id, isShow: true
                 })
             },

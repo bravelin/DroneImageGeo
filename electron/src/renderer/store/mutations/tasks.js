@@ -54,6 +54,15 @@ export default {
             state.uploadOriginImgVisibleTaskId = id
         }
     },
+    // 控制上传瓦片图的弹窗是否显示
+    [types.TASKS_SWITCH_UPLOAD_TILES_IMG_VISIBLE] (state, { id, isShow }) {
+        if (state.uploadTilesImgVisible == isShow) {
+            state.uploadTilesImgVisible = !state.uploadTilesImgVisible
+        } else {
+            state.uploadTilesImgVisible = isShow
+            state.uploadTilesImgVisibleTaskId = id
+        }
+    },
     // 控制查看原始图的弹窗是否显示
     [types.TASKS_SWITCH_VIEW_ORIGIN_IMG_VISIBLE] (state, { id, isShow }) {
         if (state.viewOriginImgVisible == isShow) {

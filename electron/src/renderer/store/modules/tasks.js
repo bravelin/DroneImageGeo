@@ -14,6 +14,9 @@ const state = {
     uploadOriginImgVisible: false,
     uploadOriginImgVisibleTaskId: '',
 
+    uploadTilesImgVisible: false,
+    uploadTilesImgVisibleTaskId: '',
+
     viewOriginImgVisible: false,
     viewOriginImgVisibleTaskId: ''
 }
