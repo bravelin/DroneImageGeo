@@ -12,7 +12,10 @@ const state = {
     delConfirmTaskId: '',
 
     uploadOriginImgVisible: false,
-    uploadOriginImgVisibleTaskId: ''
+    uploadOriginImgVisibleTaskId: '',
+
+    viewOriginImgVisible: false,
+    viewOriginImgVisibleTaskId: ''
 }
 
 export default {

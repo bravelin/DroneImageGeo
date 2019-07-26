@@ -53,5 +53,14 @@ export default {
             state.uploadOriginImgVisible = isShow
             state.uploadOriginImgVisibleTaskId = id
         }
+    },
+    // 控制查看原始图的弹窗是否显示
+    [types.TASKS_SWITCH_VIEW_ORIGIN_IMG_VISIBLE] (state, { id, isShow }) {
+        if (state.viewOriginImgVisible == isShow) {
+            state.viewOriginImgVisible = !state.viewOriginImgVisible
+        } else {
+            state.viewOriginImgVisible = isShow
+            state.viewOriginImgVisibleTaskId = id
+        }
     }
 }

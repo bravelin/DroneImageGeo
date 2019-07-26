@@ -37,6 +37,7 @@
                     <li>
                         <div class="dialog-table-button" v-if="item.status=='0'" @click="doDel(item)">删除</div>
                         <div class="dialog-table-button" v-if="item.status=='0'" @click="doUploadOriginImage(item)">上传原始图</div>
+                        <div class="dialog-table-button" v-if="item.status=='1'" @click="doViewOriginImage(item)">查看原始图</div>
                     </li>
                 </ul>
             </template>
@@ -46,6 +47,7 @@
         <AddDialog @refresh="doSearch()"></AddDialog>
         <DelConfirm @refresh="doSearch()"></DelConfirm>
         <UploadOriginImgDialog @refresh="doSearch()"></UploadOriginImgDialog>
+        <ViewOriginImgDialog @refresh="doSearch()"></ViewOriginImgDialog>
     </div>
 </template>
 <script>
@@ -55,11 +57,12 @@
     import AddDialog from './AddDialog'
     import DelConfirm from './DelConfirm'
     import UploadOriginImgDialog from './UploadOriginImgDialog'
+    import ViewOriginImgDialog from './ViewOriginImgDialog'
 
     export default {
         name: 'Tasks',
         components: {
-            AddDialog, DelConfirm, UploadOriginImgDialog
+            AddDialog, DelConfirm, UploadOriginImgDialog, ViewOriginImgDialog
         },
         computed: {
             dataList () {
@@ -124,6 +127,12 @@
             // 上传原始航拍图
             doUploadOriginImage ({ id }) {
                 this.$store.dispatch(ns.TASKS + '/' + types.TASKS_SWITCH_UPLOAD_ORIGIN_IMG_VISIBLE_SYNC, {
+                    id, isShow: true
+                })
+            },
+            // 查看原始图
+            doViewOriginImage ({ id }) {
+                this.$store.dispatch(ns.TASKS + '/' + types.TASKS_SWITCH_VIEW_ORIGIN_IMG_VISIBLE_SYNC, {
                     id, isShow: true
                 })
             }

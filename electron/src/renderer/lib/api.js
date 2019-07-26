@@ -10,6 +10,8 @@ export default {
     GET_TASKS: '/api/tasks', // 获取任务列表
     ADD_TASK: '/api/tasks', // 创建任务
     DEL_TASK: '/api/tasks/', // 删除任务
+    GET_TASK: '/api/tasks/', // 查询单个任务详情
+    GET_ORIGIN_IMG_LIST: '/api/tasks/origin/imgs/', // 获取任务原图列表
     UPLOAD_ORIGIN_IMG: '/api/tasks/upload/origin/img', // 单个上传预处理之后的航测图片
     UPDATE_ORIGIN_IMG: '/api/tasks/update/origin/img' // 更改任务状态为2
 }

@@ -113,7 +113,15 @@
                     that.$ajax({
                         method: 'post',
                         url: api.UPLOAD_ORIGIN_IMG,
-                        headers: { 'Content-Type': 'multipart/form-data', 'task': that.taskId },
+                        headers: { 'Content-Type': 'multipart/form-data' },
+                        params: {
+                            task: that.taskId,
+                            lng: imgObj.lng,
+                            lat: imgObj.lat,
+                            alt: imgObj.h,
+                            photo: encodeURIComponent(imgObj.photoTime),
+                            size: imgObj.fileSizeData
+                        },
                         data: formData
                     }).then(res => {
                         if (res.code == 200) {
@@ -208,6 +216,7 @@
                                         imgObj.path = imgPath
                                         imgObj.status = 0
                                         fileSize = fs.statSync(imgPath).size
+                                        imgObj.fileSizeData = fileSize
                                         imgObj.fileSize = fromatFileSize(fileSize)
                                         totalSize += fileSize
                                         imgObj.photoTime = formatPhotoTime(exifObj['Exif']['36867'])
