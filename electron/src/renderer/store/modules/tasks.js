@@ -18,7 +18,10 @@ const state = {
     uploadTilesImgVisibleTaskId: '',
 
     viewOriginImgVisible: false,
-    viewOriginImgVisibleTaskId: ''
+    viewOriginImgVisibleTaskId: '',
+
+    viewTilesImgVisible: false,
+    viewTilesImgVisibleTaskId: ''
 }
 
 export default {

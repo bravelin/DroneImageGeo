@@ -23,5 +23,9 @@ export default {
     // 控制查看原始图的弹窗是否显示
     [types.TASKS_SWITCH_VIEW_ORIGIN_IMG_VISIBLE_SYNC] ({ commit }, payload) {
         commit(types.TASKS_SWITCH_VIEW_ORIGIN_IMG_VISIBLE, payload)
+    },
+    // 控制预览瓦片图的弹窗是否显示
+    [types.TASKS_SWITCH_VIEW_TILES_IMG_VISIBLE_SYNC] ({ commit }, payload) {
+        commit(types.TASKS_SWITCH_VIEW_TILES_IMG_VISIBLE, payload)
     }
 }

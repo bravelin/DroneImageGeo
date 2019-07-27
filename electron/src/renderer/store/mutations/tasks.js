@@ -71,5 +71,14 @@ export default {
             state.viewOriginImgVisible = isShow
             state.viewOriginImgVisibleTaskId = id
         }
+    },
+    // 控制预览瓦片图的弹窗是否显示
+    [types.TASKS_SWITCH_VIEW_TILES_IMG_VISIBLE] (state, { id, isShow }) {
+        if (state.viewTilesImgVisible == isShow) {
+            state.viewTilesImgVisible = !state.viewTilesImgVisible
+        } else {
+            state.viewTilesImgVisible = isShow
+            state.viewTilesImgVisibleTaskId = id
+        }
     }
 }
