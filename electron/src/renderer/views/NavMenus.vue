@@ -2,7 +2,7 @@
 <template>
     <div class="nav-menus">
         <ul>
-            <li><div class="menu-item home-menu" @click="doClickMenu('guide')"><i class="iconfont">&#xe673;</i>引导说明</div></li>
+            <li><div class="menu-item guide-menu" @click="doClickMenu('guide')"><i class="iconfont">&#xe6a5;</i>流程说明</div></li>
             <li><div class="menu-item active tasks-menu" @click="doClickMenu('tasks')"><i class="iconfont">&#xe673;</i>任务列表</div></li>
             <li class="mutil-menu active" ref="tool">
                 <div class="menu-item tool-menu" @click="doSwitchMenu('tool')"><i class="iconfont">&#xe627;</i>图片工具</div>

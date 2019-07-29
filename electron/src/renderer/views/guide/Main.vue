@@ -1,7 +1,7 @@
 <!--说明引导-->
 <template>
-    <div class="page">
-        <h1 style="color:#000">Guide</h1>
+    <div class="page guide-page">
+        <div class="process"></div>
     </div>
 </template>
 <script>
@@ -13,3 +13,6 @@
         }
     }
 </script>
+<style lang="scss">
+    @import '../../style/views/guide.scss';
+</style>

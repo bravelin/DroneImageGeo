@@ -137,9 +137,9 @@
                         if (res.code == 200) {
                             that.currAddAmount++
                             imgObj.status = 2
-                            setTimeout(() => { that.doRun(index + 1) }, 200)
+                            setTimeout(() => { that.doRun(index + 1) }, 100)
                         } else {
-                            setTimeout(() => { that.doRun(index) }, 200)
+                            setTimeout(() => { that.doRun(index) }, 100)
                         }
                     })
                 } else {
