@@ -12,13 +12,18 @@
                     <li><div class="menu-item sub-item previewTiles-menu" @click="doClickMenu('previewTiles')">谷歌瓦片图预览</div></li>
                 </ul>
             </li>
-            <li><div class="menu-item accounts-menu" @click="doClickMenu('accounts')"><i class="iconfont">&#xe633;</i>账号管理</div></li>
+            <li v-show="isSuperAdmin"><div class="menu-item accounts-menu" @click="doClickMenu('accounts')"><i class="iconfont">&#xe633;</i>账号管理</div></li>
         </ul>
     </div>
 </template>
 <script>
     export default {
         name: 'NavMenus',
+        computed: {
+            isSuperAdmin () {
+                return this.$store.state.global.userRole == '0'
+            }
+        },
         mounted () {
             const that = this
             that.$nextTick(() => {

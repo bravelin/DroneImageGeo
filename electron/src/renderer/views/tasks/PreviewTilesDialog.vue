@@ -11,8 +11,6 @@
     import config from '@/lib/config'
 
     const prop = `$store.state.${ns.TASKS}.viewTilesImgVisible`
-    const maxZoom = 21
-    const minZoom = 0
     export default {
         name: 'PreviewDialog',
         computed: {
@@ -29,8 +27,10 @@
                 minLng: 0,
                 maxLat: 0,
                 maxLng: 0,
+                maxZoom: 22,
+                minZoom: 1,
                 map: null,
-                autolayers: null
+                currLayer: null
             }
         },
         watch: {
@@ -54,6 +54,8 @@
                         that.minLng = resData.minLng - 0
                         that.maxLat = resData.maxLat - 0
                         that.maxLng = resData.maxLng - 0
+                        that.minZoom = resData.minZoom - 0
+                        that.maxZoom = resData.maxZoom - 0
                         if (that.map) { // 业已初始化
                             that.changeMap() // 切换成新区块的预览图
                         } else {
@@ -69,6 +71,8 @@
             // 初始化地图
             initMap () {
                 const that = this
+                const minZoom = that.minZoom
+                const maxZoom = that.maxZoom
                 const map = L.map('map-container', {
                     scrollWheelZoom: true,
                     positionControl: true,
@@ -81,35 +85,31 @@
                     minZoom,
                     label: 'Google Maps Hybrid'
                 }
-                // const labelLayerOption = {
-                //     attribution: 'Map data: &copy; Google Maps',
-                //     maxZoom,
-                //     minZoom,
-                //     label: 'Google Maps Label'
-                // }
-                const bgLayer = L.tileLayer(`//{s}.google.cn/maps/vt?lyrs=s%40845&hl=zh-CN&gl=CN&x={x}&y={y}&z={z}`, bgLayerOption)
-                // const labelLayer = L.tileLayer(`http://www.google.cn/maps/vt?lyrs=h@189&gl=cn&x={x}&y={y}&z={z}`, labelLayerOption) // 标签层
+                const labelLayerOption = {
+                    attribution: 'Map data: &copy; Google Maps',
+                    maxZoom,
+                    minZoom,
+                    label: 'Google Maps Label'
+                }
+                const bgLayer = L.tileLayer(`http://{s}.google.cn/maps/vt?lyrs=s%40845&hl=zh-CN&gl=CN&x={x}&y={y}&z={z}`, bgLayerOption)
+                const labelLayer = L.tileLayer(`http://www.google.cn/maps/vt?lyrs=h@189&gl=cn&x={x}&y={y}&z={z}`, labelLayerOption) // 标签层
                 bgLayer.addTo(map)
-                // labelLayer.addTo(map) [labelLayerOption.label]: labelLayer
-                const bgMap = { [bgLayerOption.label]: bgLayer }
-                const autolayers = L.control.autolayers({
-                    overlays: {},
-                    selectedOverlays: [],
-                    baseLayers: bgMap
-                }).addTo(map)
+                labelLayer.addTo(map)
                 that.map = map
-                that.autolayers = autolayers
                 that.createOverlay()
             },
             // 切换地图
             changeMap () {
                 const that = this
-                console.log('changeMap......', that)
+                const layer = that.currLayer
+                that.map.removeLayer(layer)
+                that.createOverlay()
             },
             // 创建图层
             createOverlay () {
                 const that = this
-                const autolayers = that.autolayers
+                const minZoom = that.minZoom
+                const maxZoom = that.maxZoom
                 const map = that.map
                 const bounds = L.latLngBounds([[that.minLat, that.minLng], [that.maxLat, that.maxLng]])
                 const url = `${config.baseUrl}/api/google/tile/{z}/{x}/{y}`
@@ -124,9 +124,9 @@
                     opacity: 1,
                     detectRetina: true
                 })
-                layer.addTo(map)
-                autolayers.addOverlay(layer, 'Custom')
+                map.addLayer(layer)
                 map.fitBounds(mapBounds)
+                that.currLayer = layer
             },
             // 关闭弹窗
             doDialogClose () {

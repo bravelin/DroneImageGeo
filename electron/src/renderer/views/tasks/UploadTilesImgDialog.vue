@@ -5,7 +5,7 @@
             <div class="left">
                 <div class="tool-button file-button">选择待上传瓦片图目录<input type="file" ref="tilesImagePathObj" directory webkitdirectory @change="doSelectTilesImagePath()"/></div>
                 <span>{{ tilesImagePath }}</span>
-                <span v-show="images.length">{{ images.length }}张图片，{{ totalSize }}</span>
+                <span v-show="images.length">{{ images.length }}张图片，{{ totalSize }}（{{ minZoom }} ~ {{ maxZoom }}）</span>
                 <span class="orange" v-if="bounds.length==4">边界：[{{ bounds[0] }},{{ bounds[1] }},{{ bounds[2] }},{{ bounds[3] }}]</span>
             </div>
             <div class="right">
@@ -93,7 +93,9 @@
                 showReadProgressBar: false, // 读取文件夹进度条
                 imageDirsAmount: 0, // 文件夹总数
                 currReadImageDir: 0, // 当前已读取的文件夹数目
-                bounds: [] // 边界经纬度
+                bounds: [], // 边界经纬度
+                minZoom: 100, // 最小级别
+                maxZoom: 0 // 最大级别
             }
         },
         methods: {
@@ -135,7 +137,7 @@
                         if (res.code == 200) {
                             that.currAddAmount++
                             imgObj.status = 2
-                            setTimeout(() => { that.doRun(index + 1) }, 300)
+                            setTimeout(() => { that.doRun(index + 1) }, 200)
                         } else {
                             setTimeout(() => { that.doRun(index) }, 200)
                         }
@@ -152,7 +154,9 @@
                             minLat: that.bounds[0],
                             minLng: that.bounds[1],
                             maxLat: that.bounds[2],
-                            maxLng: that.bounds[3]
+                            maxLng: that.bounds[3],
+                            minZoom: that.minZoom,
+                            maxZoom: that.maxZoom
                         }
                     }).then(res => {
                         if (res.code == 200) {
@@ -214,8 +218,12 @@
                         console.warn(err)
                     } else {
                         let currPath = ''
+                        let zoom = 0
                         files.forEach(fileName => {
                             if (Number.isInteger(fileName - 0)) {
+                                zoom = fileName - 0
+                                if (zoom < that.minZoom) { that.minZoom = zoom }
+                                if (zoom > that.maxZoom) { that.maxZoom = zoom }
                                 currPath = path.join(tilesImagePath, fileName)
                                 dirs = fs.readdirSync(currPath)
                                 dirs.forEach(dir => { imageDirs.push(path.join(currPath, dir)) })
@@ -249,7 +257,7 @@
                                 that.imageDirsAmount = imageDirs.length
                                 that.currReadImageDir = 0
                                 that.showReadProgressBar = true
-                                setTimeout(() => { that.readTileFiles(imageDirs, 0) }, 300)
+                                setTimeout(() => { that.readTileFiles(imageDirs, 0) }, 200)
                             } else { // 没有边界信息，可能目录选择不对
                                 that.$store.dispatch(types.SWITCH_MESSAGE_TIP_SYNC, { show: true, tip: '没有边界经纬度，请选择正确的瓦片目录！' })
                             }
@@ -295,7 +303,7 @@
                             setTimeout(() => {
                                 that.currReadImageDir++
                                 that.readTileFiles(imageDirs, index + 1)
-                            }, 400)
+                            }, 100)
                         }
                     })
                 } else {

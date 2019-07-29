@@ -35,7 +35,7 @@
                     <li>{{ item.tilesAmount }}</li>
                     <li>{{ item.remark }}</li>
                     <li>
-                        <div class="dialog-table-button" v-if="item.status=='0'" @click="doDel(item)">删除任务</div>
+                        <div class="dialog-table-button" v-if="item.status=='0'" @click="doDel(item)">删除此任务</div>
                         <div class="dialog-table-button" v-if="item.status=='0'" @click="doUploadOriginImage(item)">上传原始图</div>
                         <div class="dialog-table-button" v-if="item.status!='0'" @click="doViewOriginImage(item)">查看原始图</div>
                         <div class="dialog-table-button" v-if="item.status=='1'" @click="doUploadTilesImage(item)">上传瓦片图</div>
