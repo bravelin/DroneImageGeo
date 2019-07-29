@@ -86,7 +86,7 @@ class UserService extends Service {
     async updateRealName (id, realName) {
         const manager = await this.findById(id);
         if (manager) {
-            await manager.update({ realName });
+            await manager.update({ realName, updatedAt: new Date() });
             return { code: 200, message: '账号修改成功！' };
         } else {
             return { code: 201, message: '未能查询到账号！' };
@@ -102,7 +102,7 @@ class UserService extends Service {
             const hash = crypto.createHash('sha1');
             hash.update(plainPassword);
             hash.update(plainPassword);
-            await manager.update({ loginPassword: hash.digest('hex') });
+            await manager.update({ loginPassword: hash.digest('hex'), updatedAt: new Date() });
             return { code: 200, message: '账号密码修改成功！' };
         } else {
             return { code: 201, message: '未能查询到账号！' };
@@ -124,7 +124,7 @@ class UserService extends Service {
             const hash = crypto.createHash('sha1');
             hash.update(plainPassword);
             hash.update(plainPassword);
-            await manager.update({ loginPassword: hash.digest('hex'), realName });
+            await manager.update({ loginPassword: hash.digest('hex'), realName, updatedAt: new Date() });
             return { code: 200, message: '账号信息修改成功！' };
         } else {
             return { code: 201, message: '未能查询到账号！' };
@@ -145,7 +145,7 @@ class UserService extends Service {
             hash.update(plainPassword);
             hash.update(plainPassword);
             const loginPassword = hash.digest('hex');
-            await ctx.model.User.create({ loginName, realName, loginPassword, role, status: '1' });
+            await ctx.model.User.create({ loginName, realName, loginPassword, role, status: '1', createdAt: new Date() });
             return { message: '账号创建成功！', code: 200 };
         }
     }
@@ -156,7 +156,7 @@ class UserService extends Service {
         if (!manager) {
             return { message: '未能查询到账号！', code: 201 }
         }
-        await manager.update({ status: '0' });
+        await manager.update({ status: '0', updatedAt: new Date() });
         return { message: '账号删除成功！', code: 200 }
     }
 }

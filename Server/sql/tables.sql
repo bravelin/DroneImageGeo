@@ -50,3 +50,14 @@ create table task (
     updated_at datetime,
     primary key(id)
 );
+
+alter table task add column tiles_size int;
+
+/*** image_data表添加列 img_width img_height ***/
+alter table image_data add column img_width int;
+alter table image_data add column img_height int;
+
+
+/*** tile_image表添加列 任务ID、图片文件大小 ***/
+alter table tile_image add column batch_id int;
+alter table tile_image add column tile_size int;

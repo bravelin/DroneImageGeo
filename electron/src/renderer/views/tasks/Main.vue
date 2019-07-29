@@ -51,7 +51,7 @@
         <UploadOriginImgDialog @refresh="doSearch()"></UploadOriginImgDialog>
         <UploadTilesImgDialog @refresh="doSearch()"></UploadTilesImgDialog>
         <ViewOriginImgDialog @refresh="doSearch()"></ViewOriginImgDialog>
-        <PreviewDialog></PreviewDialog>
+        <PreviewTilesDialog></PreviewTilesDialog>
     </div>
 </template>
 <script>
@@ -63,12 +63,12 @@
     import UploadOriginImgDialog from './UploadOriginImgDialog'
     import UploadTilesImgDialog from './UploadTilesImgDialog'
     import ViewOriginImgDialog from './ViewOriginImgDialog'
-    import PreviewDialog from './PreviewDialog'
+    import PreviewTilesDialog from './PreviewTilesDialog'
 
     export default {
         name: 'Tasks',
         components: {
-            AddDialog, DelConfirm, UploadOriginImgDialog, ViewOriginImgDialog, UploadTilesImgDialog, PreviewDialog
+            AddDialog, DelConfirm, UploadOriginImgDialog, ViewOriginImgDialog, UploadTilesImgDialog, PreviewTilesDialog
         },
         computed: {
             dataList () {

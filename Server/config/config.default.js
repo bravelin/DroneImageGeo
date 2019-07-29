@@ -1,4 +1,4 @@
-/* eslint valid-jsdoc: "off" */
+﻿/* eslint valid-jsdoc: "off" */
 
 'use strict';
 
@@ -14,11 +14,12 @@ module.exports = appInfo => {
 
     // use for cookie sign key, should change to your own and keep security
     config.keys = appInfo.name + '_1557222528762_2699';
-    config.uploadDir = 'D:\\tempUpload';
+    config.uploadDir = '/root/tempUpload';
 
     // add your user config here
     const userConfig = {};
 
+    config.picHost = 'https://bravelin.top/';
     config.jwt = {
         secret: 'yufengtek@YFZN@123'
     };
@@ -36,10 +37,11 @@ module.exports = appInfo => {
 
     config.sequelize = {
         dialect: 'mysql',
-        host: 'localhost',
+        host: '47.92.53.133',
+        // host: 'localhost',
         port: '3306',
         username: 'root',
-        password: 'root123',
+        password: 'root123XYZ@',
         database: 'gis'
     };
 

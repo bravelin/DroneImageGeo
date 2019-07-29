@@ -12,6 +12,19 @@ class GeoService extends Service {
             return {};
         }
     }
+    // 依据x,y,z，获取瓦片的地址
+    async tile (x, y, z) {
+        const { ctx, app } = this;
+        const Sequelize = app.Sequelize;
+        const sql = `select fdfs_path as url from tile_image where tile_x=${x} and tile_z=${z} and tile_y=${y}`;
+        const queryRes = await ctx.model.query(sql, { type: Sequelize.QueryTypes.SELECT });
+        if (queryRes[0]) {
+            console.log('tile...', queryRes[0], queryRes[0].url)
+            return queryRes[0].url;
+        } else {
+            return '';
+        }
+    }
 }
 
 module.exports = GeoService;

@@ -26,6 +26,10 @@ module.exports = app => {
             type: INTEGER,
             field: 'tiles_amount'
         },
+        tilesSize: {
+            type: INTEGER,
+            field: 'tiles_size'
+        },
         tilesPath: {
             type: STRING,
             field: 'tiles_path'
@@ -48,6 +52,16 @@ module.exports = app => {
         },
         remark: {
             type: STRING,
+            allowNull: true
+        },
+        createdAt: {
+            field: 'created_at',
+            type: DATE,
+            allowNull: true
+        },
+        updatedAt: {
+            field: 'updated_at',
+            type: DATE,
             allowNull: true
         }
     })

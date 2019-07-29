@@ -29,6 +29,16 @@ module.exports = app => {
         status: {
             type: STRING,
             allowNull: false
+        },
+        createdAt: {
+            field: 'created_at',
+            type: DATE,
+            allowNull: true
+        },
+        updatedAt: {
+            field: 'updated_at',
+            type: DATE,
+            allowNull: true
         }
     })
     return User

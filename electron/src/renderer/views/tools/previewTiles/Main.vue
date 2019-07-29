@@ -14,8 +14,8 @@
 
     const fs = require('fs')
     const path = require('path')
-    const originStr = 'http://maps.google.com/maps/api/js?sensor=false'
-    const distStr = 'http://maps.google.cn/maps/api/js?key=AIzaSyBS1p0Z2ibsrbtNsH6Co7ytQgL_ObYfs_E&libraries=places&language=zh-CN'
+    const originStr = 'maps.google.com/maps/api/js?sensor=false'
+    const distStr = 'maps.google.cn/maps/api/js?key=AIzaSyBS1p0Z2ibsrbtNsH6Co7ytQgL_ObYfs_E&libraries=places&language=zh-CN'
     export default {
         name: 'ToolsPreviewTiles',
         data () {
@@ -51,13 +51,17 @@
                                 if (/(.html|.htm)/.test(fileName)) {
                                     tag = true
                                     const indexPath = path.join(that.tilesMapFilePath, fileName)
+                                    console.log('indexPath...', indexPath)
                                     fs.readFile(indexPath, 'utf8', (err, file) => {
-                                        console.log('err...', err)
-                                        const result = file.replace(originStr, distStr)
-                                        fs.writeFile(indexPath, result, 'utf8', (err) => {
-                                            if (err) return console.log(err)
-                                            that.indexPath = indexPath
-                                        })
+                                        if (err) {
+                                            console.log('err...', err)
+                                        } else {
+                                            const result = file.replace(originStr, distStr)
+                                            fs.writeFile(indexPath, result, 'utf8', (err) => {
+                                                if (err) return console.log(err)
+                                                that.indexPath = indexPath
+                                            })
+                                        }
                                     })
                                     break
                                 }

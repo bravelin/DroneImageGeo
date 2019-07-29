@@ -13,9 +13,9 @@ class TaskController extends Controller {
         const searchKey = query.key ? decodeURIComponent(query.key) : '';
         const status = query.status != undefined ? query.status : '';
         let uid = ctx.request.header.uid;
-        const isSuperAdministrator = await service.user.isSuperAdministrator(uid)
+        const isSuperAdministrator = await service.user.isSuperAdministrator(uid);
         if (isSuperAdministrator) {
-            uid = ''
+            uid = '';
         }
         const resData = await service.task.queryAll({ page, pageSize, searchKey, status, uid });
         helper.success(ctx, resData);
@@ -31,6 +31,28 @@ class TaskController extends Controller {
         }
         const res = await service.task.create(ctx.request.header.uid, params.remark);
         helper.success(ctx, '', res.message, res.code);
+    }
+    // 查询任务详情
+    async show () {
+        const { ctx, service } = this;
+        const querys = ctx.params;
+        const helper = ctx.helper;
+        if (!querys.id || !(querys.id + '').trim()) {
+            return helper.success(ctx, '', '接口缺少参数！', 501);
+        }
+        const res = await service.task.getDetail(querys.id);
+        helper.success(ctx, res.data, res.message, res.code);
+    }
+    // 查询任务原图列表
+    async getOriginImgList () {
+        const { ctx, service } = this;
+        const querys = ctx.params;
+        const helper = ctx.helper;
+        if (!querys.id || !(querys.id + '').trim()) {
+            return helper.success(ctx, '', '接口缺少参数！', 501);
+        }
+        const res = await service.task.getOriginImgList(querys.id);
+        helper.success(ctx, res.data, res.message, res.code);
     }
     // 任务状态更改为1
     async updateOriginImg () {
@@ -57,6 +79,38 @@ class TaskController extends Controller {
         const res = await service.task.updateOriginImg({ id, aerialDate, imgTotalSize, imgTotalAmount });
         helper.success(ctx, '', res.message, res.code);
     }
+    // 任务状态更改为2
+    async updateTileImg () {
+        const { ctx, service } = this;
+        const params = ctx.request.body;
+        const helper = ctx.helper;
+        // 校验参数
+        const id = params.id;
+        if (!id || !(id + '').trim()) {
+            return helper.success(ctx, '', '任务ID不能为空！', 501);
+        }
+        const tilesAmount = params.tilesAmount;
+        if (!tilesAmount || !(tilesAmount + '').trim()) {
+            return helper.success(ctx, '', '瓦片总数不能为空！', 501);
+        }
+        const tilesSize = params.tilesSize;
+        if (!tilesSize || !(tilesSize + '').trim()) {
+            return helper.success(ctx, '', '瓦片总大小不能为空！', 501);
+        }
+        const tilesPath = params.tilesPath;
+        if (!tilesPath || !(tilesPath + '').trim()) {
+            return helper.success(ctx, '', '瓦片路径不能为空！', 501);
+        }
+        const minLat = params.minLat;
+        const minLng = params.minLng;
+        const maxLat = params.maxLat;
+        const maxLng = params.maxLng;
+        if (!minLat || !minLng || !maxLat || !maxLng) {
+            return helper.success(ctx, '', '边界信息不能为空！', 501);
+        }
+        const res = await service.task.updateTileImg({ id, tilesAmount, tilesSize, tilesPath, minLat, minLng, maxLat, maxLng });
+        helper.success(ctx, '', res.message, res.code);
+    }
     // 删除任务
     async destroy () {
         const { ctx, service } = this;
@@ -73,8 +127,17 @@ class TaskController extends Controller {
     async uploadOriginImg () {
         const { ctx, service } = this;
         const helper = ctx.helper;
-        const res = await service.task.uploadOriginImg();
-        helper.success(ctx, '', res.message, res.code);
+        const query = ctx.query || {};
+        const res = await service.task.uploadOriginImg(query);
+        helper.success(ctx, res.data, res.message, res.code);
+    }
+    // 上传单个瓦片图
+    async uploadTileImg () {
+        const { ctx, service } = this;
+        const helper = ctx.helper;
+        const query = ctx.query || {};
+        const res = await service.task.uploadTileImg(query);
+        helper.success(ctx, res.data, res.message, res.code);
     }
 }
 

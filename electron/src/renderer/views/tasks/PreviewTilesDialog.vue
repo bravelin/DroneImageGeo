@@ -1,7 +1,7 @@
 <!--预览瓦片图弹窗-->
 <template>
     <Dialog :title="'预览瓦片图（任务ID：'+ taskId + '）'" class="view-tiles-dialog" :show="dialogVisible" @close="doDialogClose()">
-        <div class="preview-content" ref="wrap"></div>
+        <div class="preview-content" ref="wrap" id="map-container"></div>
     </Dialog>
 </template>
 <script>
@@ -11,7 +11,7 @@
     import config from '@/lib/config'
 
     const prop = `$store.state.${ns.TASKS}.viewTilesImgVisible`
-    const maxZoom = 24
+    const maxZoom = 21
     const minZoom = 0
     export default {
         name: 'PreviewDialog',
@@ -29,7 +29,8 @@
                 minLng: 0,
                 maxLat: 0,
                 maxLng: 0,
-                map: null
+                map: null,
+                autolayers: null
             }
         },
         watch: {
@@ -68,54 +69,64 @@
             // 初始化地图
             initMap () {
                 const that = this
-                const mapCenterPoint = new google.maps.LatLng((that.minLat + that.maxLat) / 2, (that.minLng + that.maxLng) / 2)
-                // console.log('mapCenterPoint...', mapCenterPoint)
-                that.map = new google.maps.Map(that.$refs.wrap, {
-                    center: mapCenterPoint,
-                    zoom: 14,
+                const map = L.map('map-container', {
+                    scrollWheelZoom: true,
+                    positionControl: true,
+                    zoomControl: false
+                })
+                const bgLayerOption = {
+                    attribution: 'Map data: &copy; Google Maps',
+                    subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
                     maxZoom,
                     minZoom,
-                    mapTypeId: 'hybrid',
-                    gestureHandling: 'greedy',
-                    keyboardShortcuts: false,
-                    styles: [
-                        {
-                            elementType: 'labels.icon', // 将所有默认标记去除
-                            stylers: [{ visibility: 'off' }]
-                        }
-                    ]
-                })
-                that.map.overlayMapTypes.insertAt(1, that.createOverlay())
+                    label: 'Google Maps Hybrid'
+                }
+                // const labelLayerOption = {
+                //     attribution: 'Map data: &copy; Google Maps',
+                //     maxZoom,
+                //     minZoom,
+                //     label: 'Google Maps Label'
+                // }
+                const bgLayer = L.tileLayer(`//{s}.google.cn/maps/vt?lyrs=s%40845&hl=zh-CN&gl=CN&x={x}&y={y}&z={z}`, bgLayerOption)
+                // const labelLayer = L.tileLayer(`http://www.google.cn/maps/vt?lyrs=h@189&gl=cn&x={x}&y={y}&z={z}`, labelLayerOption) // 标签层
+                bgLayer.addTo(map)
+                // labelLayer.addTo(map) [labelLayerOption.label]: labelLayer
+                const bgMap = { [bgLayerOption.label]: bgLayer }
+                const autolayers = L.control.autolayers({
+                    overlays: {},
+                    selectedOverlays: [],
+                    baseLayers: bgMap
+                }).addTo(map)
+                that.map = map
+                that.autolayers = autolayers
+                that.createOverlay()
             },
             // 切换地图
             changeMap () {
                 const that = this
-                const mapCenterPoint = new google.maps.LatLng((that.minLat + that.maxLat) / 2, (that.minLng + that.maxLng) / 2)
-                that.map.setCenter(mapCenterPoint)
-                that.map.overlayMapTypes.removeAt(1)
-                that.map.overlayMapTypes.insertAt(1, that.createOverlay())
+                console.log('changeMap......', that)
             },
             // 创建图层
             createOverlay () {
                 const that = this
+                const autolayers = that.autolayers
                 const map = that.map
-                const bounds = [that.minLat, that.minLng, that.maxLat, that.maxLng]
-                const mapBounds = new google.maps.LatLngBounds(new google.maps.LatLng(bounds[0], bounds[1]), new google.maps.LatLng(bounds[2], bounds[3]))
-                map.fitBounds(mapBounds)
-                return new google.maps.ImageMapType({
-                    getTileUrl (coord, zoom) {
-                        // console.log('zoom...', zoom)
-                        const proj = map.getProjection()
-                        const tileSize = 256 / Math.pow(2, zoom)
-                        const tileBounds = new google.maps.LatLngBounds(proj.fromPointToLatLng(new google.maps.Point(coord.x * tileSize, (coord.y + 1) * tileSize)), proj.fromPointToLatLng(new google.maps.Point((coord.x + 1) * tileSize, coord.y * tileSize)))
-                        if (mapBounds.intersects(tileBounds) && (zoom >= minZoom) && (zoom <= maxZoom)) {
-                            return config.baseUrl + '/api/google/tile/' + zoom + '/' + coord.x + '/' + (Math.pow(2, zoom) - coord.y - 1)
-                        }
-                    },
-                    tileSize: new google.maps.Size(256, 256),
-                    isPng: true,
-                    opacity: 1
+                const bounds = L.latLngBounds([[that.minLat, that.minLng], [that.maxLat, that.maxLng]])
+                const url = `${config.baseUrl}/api/google/tile/{z}/{x}/{y}`
+                let mapBounds = L.latLngBounds()
+                mapBounds.extend(bounds)
+                const layer = L.tileLayer(url, {
+                    bounds,
+                    minZoom,
+                    maxZoom: L.Browser.retina ? (maxZoom + 1) : maxZoom,
+                    maxNativeZoom: L.Browser.retina ? (maxZoom - 1) : maxZoom,
+                    tms: true,
+                    opacity: 1,
+                    detectRetina: true
                 })
+                layer.addTo(map)
+                autolayers.addOverlay(layer, 'Custom')
+                map.fitBounds(mapBounds)
             },
             // 关闭弹窗
             doDialogClose () {
