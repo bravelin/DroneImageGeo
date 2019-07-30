@@ -42,5 +42,12 @@ export default {
         } else {
             state.changePwDialogStatus = isShow
         }
+    },
+    [types.SWITCH_SETTING_DIALOG_STATUS] (state, isShow) {
+        if (state.settingDialogStatus == isShow) {
+            state.settingDialogStatus = !state.settingDialogStatus
+        } else {
+            state.settingDialogStatus = isShow
+        }
     }
 }

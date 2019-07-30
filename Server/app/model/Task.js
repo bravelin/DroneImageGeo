@@ -50,6 +50,14 @@ module.exports = app => {
             type: DOUBLE,
             field: 'max_lng'
         },
+        minZoom: {
+            type: INTEGER,
+            field: 'min_zoom'
+        },
+        maxZoom: {
+            type: INTEGER,
+            field: 'max_zoom'
+        },
         remark: {
             type: STRING,
             allowNull: true

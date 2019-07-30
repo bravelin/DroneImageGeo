@@ -7,5 +7,6 @@ export default {
     userName: `${prefixTag}-username`,
     realName: `${prefixTag}-realname`,
     password: `${prefixTag}-password`,
-    loginRemember: `${prefixTag}-remember`
+    loginRemember: `${prefixTag}-remember`,
+    baseUrl: `${prefixTag}-baseurl`
 }

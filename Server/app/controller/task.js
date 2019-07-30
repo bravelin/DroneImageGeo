@@ -108,7 +108,12 @@ class TaskController extends Controller {
         if (!minLat || !minLng || !maxLat || !maxLng) {
             return helper.success(ctx, '', '边界信息不能为空！', 501);
         }
-        const res = await service.task.updateTileImg({ id, tilesAmount, tilesSize, tilesPath, minLat, minLng, maxLat, maxLng });
+        const minZoom = params.minZoom;
+        const maxZoom = params.maxZoom;
+        if (!minZoom || !maxZoom) {
+            return helper.success(ctx, '', '瓦片级别信息不能为空！', 501);
+        }
+        const res = await service.task.updateTileImg({ id, tilesAmount, tilesSize, tilesPath, minLat, minLng, maxLat, maxLng, minZoom, maxZoom });
         helper.success(ctx, '', res.message, res.code);
     }
     // 删除任务

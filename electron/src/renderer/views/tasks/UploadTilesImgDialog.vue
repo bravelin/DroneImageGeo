@@ -48,6 +48,7 @@
     const fs = require('fs')
     const path = require('path')
     const prop = `$store.state.${ns.TASKS}.uploadTilesImgVisible`
+    const ONCE_UPLOAD_MAX_NUM = 9 // 同时上传的数目
 
     export default {
         name: 'UploadTilesImgDialog',
@@ -67,6 +68,10 @@
                 if (newVal) {
                     const that = this
                     that.images = []
+                    that.uploadQueues = []
+                    for (let i = 0; i < ONCE_UPLOAD_MAX_NUM; i++) {
+                        that.uploadQueues.push([])
+                    }
                     that.tilesImagePath = ''
                     that.currAddAmount = 0
                     that.showProgressBar = false
@@ -85,6 +90,7 @@
         data () {
             return {
                 images: [],
+                uploadQueues: [], // 上传队列
                 tilesImagePath: '', // 待上传图片目录
                 currAddAmount: 0, // 当前已处理的数目
                 showProgressBar: false, // 是否显示进度条
@@ -105,16 +111,20 @@
                 if (that.doCheck()) {
                     that.currAddAmount = 0
                     that.showProgressBar = true
-                    setTimeout(() => { that.doRun(0) }, 300)
+                    for (let i = 0; i < ONCE_UPLOAD_MAX_NUM; i++) {
+                        setTimeout(() => { that.doRun(i, 0) }, 50 * i + 200)
+                    }
                 }
             },
             // 按顺序执行，依次上传
-            doRun (index) {
+            doRun (queueIndex, index) {
+                console.log('upload...', queueIndex, index)
                 const that = this
                 const store = that.$store
-                if (index < that.images.length) {
+                const queue = that.uploadQueues[queueIndex]
+                if (index < queue.length) {
                     const formData = new FormData()
-                    const imgObj = that.images[index]
+                    const imgObj = queue[index]
                     const fileBuffer = fs.readFileSync(imgObj.path)
                     const file = new File([fileBuffer], imgObj.fileName, { type: 'image/png' })
                     formData.append('img', file)
@@ -137,12 +147,12 @@
                         if (res.code == 200) {
                             that.currAddAmount++
                             imgObj.status = 2
-                            setTimeout(() => { that.doRun(index + 1) }, 100)
+                            setTimeout(() => { that.doRun(queueIndex, index + 1) }, 100)
                         } else {
-                            setTimeout(() => { that.doRun(index) }, 100)
+                            setTimeout(() => { that.doRun(queueIndex, index) }, 100)
                         }
                     })
-                } else {
+                } else if (that.currAddAmount >= that.images.length) { // upload over
                     that.$ajax({
                         method: 'post',
                         url: api.UPDATE_TILES_IMG,
@@ -273,6 +283,7 @@
                     let stats = null
                     let filePath = ''
                     let tileInfos = null
+                    let imgObj = null
                     fs.readdir(thisPath, (err, files) => {
                         if (err) {
                             console.log(err)
@@ -284,7 +295,7 @@
                                     tileInfos = filePath.split('\\').slice(-3)
                                     if (tileInfos.length == 3) {
                                         that.totalSizeData += stats.size
-                                        that.images.push({
+                                        imgObj = {
                                             fileName,
                                             sizeData: stats.size,
                                             size: fromatFileSize(stats.size),
@@ -296,7 +307,9 @@
                                             h: 256,
                                             path: filePath,
                                             status: 0
-                                        })
+                                        }
+                                        that.images.push(imgObj)
+                                        that.uploadQueues[that.images.length % ONCE_UPLOAD_MAX_NUM].push(imgObj)
                                     }
                                 }
                             })

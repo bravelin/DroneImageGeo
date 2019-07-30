@@ -49,6 +49,7 @@
     const path = require('path')
     const piexif = require('piexifjs')
     const prop = `$store.state.${ns.TASKS}.uploadOriginImgVisible`
+    const ONCE_UPLOAD_MAX_NUM = 9 // 同时上传的数目
 
     export default {
         name: 'UploadOriginImgDialog',
@@ -65,6 +66,10 @@
                 if (newVal) {
                     const that = this
                     that.images = []
+                    that.uploadQueues = []
+                    for (let i = 0; i < ONCE_UPLOAD_MAX_NUM; i++) {
+                        that.uploadQueues.push([])
+                    }
                     that.originImagePath = ''
                     that.currAddAmount = 0
                     that.showProgressBar = false
@@ -81,6 +86,7 @@
         data () {
             return {
                 images: [],
+                uploadQueues: [], // 上传队列
                 originImagePath: '', // 待上传图片目录
                 currAddAmount: 0, // 当前已处理的数目
                 showProgressBar: false, // 是否显示进度条
@@ -96,16 +102,19 @@
                 if (that.doCheck()) {
                     that.currAddAmount = 0
                     that.showProgressBar = true
-                    setTimeout(() => { that.doRun(0) }, 300)
+                    for (let i = 0; i < ONCE_UPLOAD_MAX_NUM; i++) {
+                        setTimeout(() => { that.doRun(i, 0) }, 50 * i + 200)
+                    }
                 }
             },
             // 按顺序执行处理
-            doRun (index) {
+            doRun (queueIndex, index) {
                 const that = this
                 const store = that.$store
-                if (index < that.images.length) {
+                const queue = that.uploadQueues[queueIndex]
+                if (index < queue.length) {
                     const formData = new FormData()
-                    const imgObj = that.images[index]
+                    const imgObj = queue[index]
                     const fileBuffer = fs.readFileSync(imgObj.path)
                     const file = new File([fileBuffer], imgObj.fileName, { type: 'image/jpeg' })
                     formData.append('img', file)
@@ -129,12 +138,12 @@
                         if (res.code == 200) {
                             that.currAddAmount++
                             imgObj.status = 2
-                            setTimeout(() => { that.doRun(index + 1) }, 300)
+                            setTimeout(() => { that.doRun(queueIndex, index + 1) }, 100)
                         } else {
-                            setTimeout(() => { that.doRun(index) }, 200)
+                            setTimeout(() => { that.doRun(queueIndex, index) }, 100)
                         }
                     })
-                } else {
+                } else if (that.currAddAmount >= that.images.length) {
                     that.$ajax({
                         method: 'post',
                         url: api.UPDATE_ORIGIN_IMG,
@@ -241,6 +250,7 @@
                                             exitGps = false
                                         }
                                         that.images.push(imgObj)
+                                        that.uploadQueues[that.images.length % ONCE_UPLOAD_MAX_NUM].push(imgObj)
                                     }
                                 }
                                 if (!exitGps) { // 图片不存在经纬度信息

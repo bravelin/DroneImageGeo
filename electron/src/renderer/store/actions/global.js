@@ -23,5 +23,8 @@ export default {
     },
     [types.SWITCH_CHANGE_PW_DIALOG_STATUS_SYNC] ({ commit }, payload) {
         commit(types.SWITCH_CHANGE_PW_DIALOG_STATUS, payload)
+    },
+    [types.SWITCH_SETTING_DIALOG_STATUS_SYNC] ({ commit }, payload) {
+        commit(types.SWITCH_SETTING_DIALOG_STATUS, payload)
     }
 }

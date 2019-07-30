@@ -20,7 +20,8 @@ const state = {
     userRole: '0', // 角色
     realName: '', // RealName
     loginRemember: true, // 是否记住账号信息
-    changePwDialogStatus: false // 修改当前账号的密码，名称
+    changePwDialogStatus: false, // 修改当前账号的密码，名称
+    settingDialogStatus: false // 设置弹窗
 }
 
 export default {

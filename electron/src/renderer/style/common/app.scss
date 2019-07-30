@@ -111,6 +111,16 @@ div.nav-menus{
     }
 }
 
+.setting-dialog{
+    .input-wrap{
+        background: rgba(19, 30, 34, 0.6);
+        margin-top: 14px;
+        border: 1px solid #74c3e3;
+        border-radius: 4px;
+        padding-left: 10px;
+    }
+}
+
 .change-password-dialog{
     .dialog-content{
         min-width: 390px;

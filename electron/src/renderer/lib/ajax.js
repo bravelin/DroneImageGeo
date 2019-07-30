@@ -5,7 +5,7 @@ import store from '../store/index'
 import conf from './config'
 let csrfToken = ''
 
-axios.defaults.baseURL = conf.baseUrl
+axios.defaults.baseURL = conf.storeBaseUrl || conf.baseUrl
 // 请求发送之前的拦截器
 axios.interceptors.request.use(config => {
     if (!csrfSafeMethod(config.method)) {

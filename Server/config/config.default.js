@@ -19,7 +19,7 @@ module.exports = appInfo => {
     // add your user config here
     const userConfig = {};
 
-    config.picHost = 'https://bravelin.top/';
+    config.picHost = 'http://47.97.155.10:8888/';
     config.jwt = {
         secret: 'yufengtek@YFZN@123'
     };
@@ -27,6 +27,11 @@ module.exports = appInfo => {
     config.ssl = {
         path: '.well-known/pki-validation/fileauth.txt',
         file: 'fileauth.txt'
+    };
+
+    config.fastdfs = {
+        host: '47.97.155.10',
+        port: 22144
     };
 
     config.security = {
@@ -37,12 +42,11 @@ module.exports = appInfo => {
 
     config.sequelize = {
         dialect: 'mysql',
-        host: '47.92.53.133',
-        // host: 'localhost',
-        port: '3306',
-        username: 'root',
-        password: 'root123XYZ@',
-        database: 'gis'
+        host: '172.16.249.101',
+        port: '3388',
+        username: 'yufeng',
+        password: 'a7vN@gsvu',
+        database: 'data_warehouse'
     };
 
     config.multipart = {

@@ -2,7 +2,7 @@
     <div class="page login-page">
         <div class="login-dialog" :class="{ active: showDialog }">
             <div class="title">
-                <h1 :class="{ active: showMainTitle }">
+                <h1 :class="{ active: showMainTitle }" @dblclick="doShowSetting()">
                     <span>裕</span><span>丰</span><span>科</span><span>技</span><span>地</span><span>理</span><span>数</span><span>据</span><span>处</span><span>理</span><span>系</span><span>统</span>
                 </h1>
             </div>
@@ -29,6 +29,7 @@
             <div class="column8"></div>
             <div class="column9"></div>
         </div>
+        <SettingDialog></SettingDialog>
     </div>
 </template>
 <script>
@@ -36,10 +37,12 @@
     import types from '@/store/constants/types'
     import { aesEncrypt } from '@/lib/util'
     import api from '@/lib/api'
+    import SettingDialog from './SettingDialog'
 
     const ls = localStorage
     export default {
         name: 'Login',
+        components: { SettingDialog },
         data () {
             return {
                 loginName: '',
@@ -182,6 +185,9 @@
                 if (e.keyCode === 13) {
                     this.doLogin()
                 }
+            },
+            doShowSetting () {
+                this.$store.dispatch(types.SWITCH_SETTING_DIALOG_STATUS_SYNC, true)
             }
         },
         beforeDestroy () { // 移除事件

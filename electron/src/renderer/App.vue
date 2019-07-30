@@ -19,6 +19,7 @@
     import ChangePassword from '@/views/ChangePassword'
     import GlobalMessage from '@/components/Message'
     import tags from '@/lib/tags'
+    import config from '@/lib/config'
 
     const win = window
     const doc = document
@@ -52,6 +53,9 @@
                 realName: ls.getItem(tags.realName) || '', // RealName
                 loginRemember: ls.getItem(tags.loginRemember) === '0' // 是否记住账号
             })
+            if (ls.getItem(tags.baseUrl)) {
+                config.storeBaseUrl = ls.getItem(tags.baseUrl)
+            }
             that.doWinResize()
         },
         methods: {

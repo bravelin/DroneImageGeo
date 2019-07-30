@@ -41,22 +41,22 @@ create table task (
     img_total_amount int default 0, /* 图片总体数量 */
     tiles_amount int default 0, /* 瓦片数目 */
     tiles_path varchar(500), /* 瓦片图临时目录 */
+    tiles_size int, /* 瓦片图总体大小 */
     min_lat double, /* 区域边距minLat */
     min_lng double, /* 区域边距minLng */
     max_lat double, /* 区域边距maxLat */
     max_lng double, /* 区域边距maxLng */
+    min_zoom int, /* 最小级别 */
+    max_zoom int, /* 最大级别 */
     remark varchar(500), /* 备注 */
     created_at datetime,
     updated_at datetime,
     primary key(id)
 );
 
-alter table task add column tiles_size int;
-
 /*** image_data表添加列 img_width img_height ***/
 alter table image_data add column img_width int;
 alter table image_data add column img_height int;
-
 
 /*** tile_image表添加列 任务ID、图片文件大小 ***/
 alter table tile_image add column batch_id int;

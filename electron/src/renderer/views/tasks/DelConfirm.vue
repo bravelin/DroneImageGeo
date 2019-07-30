@@ -31,7 +31,6 @@
                 const store = that.$store
                 const type = types.SWITCH_MESSAGE_TIP_SYNC
                 store.dispatch(types.SWITCH_LOADING_SYNC, true)
-                that.doDialogClose()
                 that.$ajax({
                     url: api.DEL_TASK + that.taskId,
                     method: 'DELETE'
@@ -44,6 +43,7 @@
                         store.dispatch(type, { show: true, tip: res.message || '任务删除失败！' })
                     }
                 })
+                that.doDialogClose()
             },
             doDialogClose () {
                 this.$store.dispatch(ns.TASKS + '/' + types.TASKS_SWITCH_DEL_CONFIRM_VISIBLE_SYNC, { isShow: false })

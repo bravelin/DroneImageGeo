@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 const Service = require('egg').Service;
 const path = require('path');
 const sendToWormhole = require('stream-wormhole');
@@ -12,17 +12,7 @@ function generateUUID () {
 
 // fastDFS客户端实例
 const fdfs = require('fdfs')
-const fdfsClient = new fdfs({
-    trackers: [
-        {
-            host: '0.0.0.0',
-            port: 22122
-        }
-    ],
-    timeout: 10000,
-    charset: 'utf8'
-})
-
+let fdfsClient = null
 
 class TaskService extends Service {
     // 查询任务列表
@@ -62,7 +52,7 @@ class TaskService extends Service {
     async getDetail (id) {
         const { ctx, app } = this;
         const Sequelize = app.Sequelize;
-        const sql = `select task.id as id, creator, task.status as status, aerial_date as aerialDate, img_total_size as imgTotalSize, img_total_amount as imgTotalAmount, tiles_amount as tilesAmount, tiles_path as tilesPath, tiles_size as tilesSize, min_lat as minLat, min_lng as minLng, max_lat as maxLat, max_lng as maxLng, remark, tool_user.real_name as creatorName, task.created_at as createdAt from task, tool_user where task.creator=tool_user.id and task.id=${id}`;
+        const sql = `select task.id as id, creator, task.status as status, aerial_date as aerialDate, img_total_size as imgTotalSize, img_total_amount as imgTotalAmount, tiles_amount as tilesAmount, tiles_path as tilesPath, tiles_size as tilesSize, min_lat as minLat, min_lng as minLng, max_lat as maxLat, max_lng as maxLng, min_zoom as minZoom, max_zoom as maxZoom, remark, tool_user.real_name as creatorName, task.created_at as createdAt from task, tool_user where task.creator=tool_user.id and task.id=${id}`;
         const queryRes = await ctx.model.query(sql, { type: Sequelize.QueryTypes.SELECT });
         if (queryRes[0]) {
             return { message: '查询成功！', data: queryRes[0], code: 200 };
@@ -114,13 +104,26 @@ class TaskService extends Service {
         const fileType = stream.mimeType;
         const fileExt = (fileType && fileType.indexOf('/') > 0) ? fileType.split('/')[1] : (fileType || ''); // 文件后缀
         const tempFileName = generateUUID() + '.' + fileExt;
-        const exists = fs.existsSync(app.config.uploadDir);
+        const config = app.config;
+        const exists = fs.existsSync(config.uploadDir);
         if (!exists) {
-            fs.mkdirSync(app.config.uploadDir);
-            console.log('创建目录...', app.config.uploadDir);
+            fs.mkdirSync(config.uploadDir);
+            console.log('创建目录...', config.uploadDir);
         }
-        const tempFilePath = path.join(app.config.uploadDir, tempFileName);
+        const tempFilePath = path.join(config.uploadDir, tempFileName);
         const writeStream = fs.createWriteStream(tempFilePath);
+        if (!fdfsClient) {
+            fdfsClient = new fdfs({
+                trackers: [
+                    {
+                        host: config.fastdfs.host,
+                        port: config.fastdfs.port
+                    }
+                ],
+                timeout: 10000,
+                charset: 'utf8'
+            })
+        }
         try {
             await awaitWriteStream(stream.pipe(writeStream));
             const fileId = await fdfsClient.upload(tempFilePath);
@@ -130,7 +133,7 @@ class TaskService extends Service {
                 originalName,
                 name: generateName,
                 type: fileType,
-                url: app.config.picHost + fileId,
+                url: config.picHost + fileId,
                 size, lng, lat, alt, photo, task, w, h, state: 'SUCCESS'
             }
             console.log('res...', resData);
@@ -163,13 +166,26 @@ class TaskService extends Service {
         const fileType = stream.mimeType;
         const fileExt = (fileType && fileType.indexOf('/') > 0) ? fileType.split('/')[1] : (fileType || ''); // 文件后缀
         const tempFileName = generateUUID() + '.' + fileExt;
-        const exists = fs.existsSync(app.config.uploadDir);
+        const config = app.config;
+        const exists = fs.existsSync(config.uploadDir);
         if (!exists) {
-            fs.mkdirSync(app.config.uploadDir);
-            console.log('创建目录...', app.config.uploadDir);
+            fs.mkdirSync(config.uploadDir);
+            console.log('创建目录...', config.uploadDir);
         }
-        const tempFilePath = path.join(app.config.uploadDir, tempFileName);
+        const tempFilePath = path.join(config.uploadDir, tempFileName);
         const writeStream = fs.createWriteStream(tempFilePath);
+        if (!fdfsClient) {
+            fdfsClient = new fdfs({
+                trackers: [
+                    {
+                        host: config.fastdfs.host,
+                        port: config.fastdfs.port
+                    }
+                ],
+                timeout: 10000,
+                charset: 'utf8'
+            })
+        }
         try {
             await awaitWriteStream(stream.pipe(writeStream));
             const fileId = await fdfsClient.upload(tempFilePath);
@@ -200,13 +216,13 @@ class TaskService extends Service {
         }
     }
     // 更改任务状态为2
-    async updateTileImg ({ id, tilesAmount, tilesSize, tilesPath, minLat, minLng, maxLat, maxLng }) {
+    async updateTileImg ({ id, tilesAmount, tilesSize, tilesPath, minLat, minLng, maxLat, maxLng, minZoom, maxZoom }) {
         const { ctx } = this;
         const task = await ctx.model.Task.findById(id);
         if (!task) {
             return { message: '未能查询到任务！', code: 201 };
         }
-        await task.update({ status: '2', tilesAmount: tilesAmount - 0, tilesSize: tilesSize - 0, tilesPath, updatedAt: new Date(), minLat: minLat - 0, minLng: minLng - 0, maxLat: maxLat - 0, maxLng: maxLng - 0 });
+        await task.update({ status: '2', tilesAmount: tilesAmount - 0, tilesSize: tilesSize - 0, tilesPath, updatedAt: new Date(), minLat: minLat - 0, minLng: minLng - 0, maxLat: maxLat - 0, maxLng: maxLng - 0, minZoom: minZoom - 0, maxZoom: maxZoom - 0 });
         return { message: '更新成功！', code: 200 };
     }
 }
